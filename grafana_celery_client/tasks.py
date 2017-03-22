@@ -1,8 +1,15 @@
 
+from celery import shared_task
 
-# from grafana_celery_client.influx import send_data as actual_send_data
+from grafana_celery_client.influx import send_data as actual_send_data
 
 
-def send_data(self, dimension, value, extra_data=None, timestamp=None):
+@shared_task(bind=True, queue='grafana_celery_client')
+def send_data(self, dimension, tags, value, timestamp=None, url=None):
 
-    actual_send_data(self.app.conf.grafana_celery_client_url, dimension, value, extra_data=extra_data, timestamp=timestamp)
+    # from celery.contrib import rdb; rdb.set_trace()
+
+    if not url:
+        url = self.app.conf.grafana_celery_client_url
+
+    actual_send_data(url, dimension, tags, value, timestamp)

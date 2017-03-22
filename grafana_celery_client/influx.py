@@ -13,7 +13,7 @@ def send_data(url, dimension, tags, value, timestamp=None):
 
     data = "{},{} value={} {}".format(dimension, tags, value, int(timestamp))
 
-    logger.info(data)
+    logger.info("[grafana send data] url: {} data: {}".format(url, data))
     response = requests.post(url, data=data)
     logger.info(response.text)
 
