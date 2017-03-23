@@ -14,13 +14,17 @@ def send_data(url, measurement, tags, value, timestamp=None):
 
         ntags = []
 
-        for key, value in tags.items():
-            ntags.append('{}={}'.format(key, value))
+        for k, v in tags.items():
+            ntags.append('{}={}'.format(k, v))
 
         tags = ",".join(ntags)
 
     if not timestamp:
         timestamp = time.time() * 1000000000
+
+    if timestamp < time.time() * 1000000:
+        # warn problably not send timestamp in microseconds
+        logger.warn('send_data: problably not send timestamp in microseconds [{}]'.format(timestamp))
 
     data = "{},{} value={} {}".format(measurement, tags, value, int(timestamp))
 

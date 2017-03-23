@@ -19,11 +19,12 @@ def influx():
 @click.argument('measurement')
 @click.argument('tags')
 @click.argument('value')
-def influx_send_data(url, measurement, tags, value):
+@click.option('-t', '--timestamp', default=None)
+def influx_send_data(url, measurement, tags, value, timestamp=None):
 
     from grafana_celery_client.influx import send_data as sd
 
-    sd(url, measurement, tags, value)
+    sd(url, measurement, tags, value, timestamp=timestamp)
 
 
 @grafana.group()
@@ -36,7 +37,8 @@ def tasks():
 @click.argument('tags')
 @click.argument('value')
 @click.option('-u', '--url', default=None)
-def tasks_send_data(measurement, tags, value, url):
+@click.option('-t', '--timestamp', default=None)
+def tasks_send_data(measurement, tags, value, url=None, timestamp=None):
 
     from grafana_celery_client.tasks import send_data as sd
 
