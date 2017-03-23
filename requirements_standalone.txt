@@ -1,0 +1,4 @@
+celery==4.0.2
+click==6.7
+ipdb==0.8
+ipython==5.1.0

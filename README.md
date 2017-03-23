@@ -1,11 +1,16 @@
 # Grafana celery client
-=======================
 
 This lib should be used by pyramid. It can be used standalone. :-)
 
-Integration with Pyramid
+## Dependences
+```
+pyramid
+celery
+```
 
-Instalation
+## Integration with Pyramid
+
+### Instalation
 
 Add to project requirements.txt
 
@@ -20,7 +25,7 @@ Add to project __init__.py or main() method
 
 ```python
 	
-	...
+    ...
     settings['grafana_celery_client.url'] = get_from_env_or_settings(
         'grafana_celery_client.url', settings,
         default='http://52.91.126.40:8086/write?db=graphite'
@@ -31,24 +36,23 @@ Add to project __init__.py or main() method
 
 ```
 
-Standalone
+## Standalone (using virtualenvwrapper)
 
 
 ```shell
-...
 git clone git@github.com:geru-br/grafana-celery-client.git
-cd grafana-celery-client.git
-python setup.py develop
-...
-
+cd grafana-celery-client
+mkvirtualenv grafana-celery-client
+pip install -r requirements_standalone.txt
 ```
 
 
-Tests after cloned
+## Tests after cloned
 
 
 ```shell
 ...
+pip install -r requirements_tests.txt
 nosetests grafana_celery_client/tests
 ...
 
