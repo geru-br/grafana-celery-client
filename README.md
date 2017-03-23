@@ -28,9 +28,30 @@ Add to project __init__.py or main() method
     ...
     config.include('grafana_celery_client')
 
+    ...
+
+```
 
 Standalone
 
 
-Tests
+```shell
+...
+git clone git@github.com:geru-br/grafana-celery-client.git
+cd grafana-celery-client.git
+python setup.py develop
+...
+
+```
+
+
+Tests after cloned
+
+
+```shell
+...
+nosetests grafana_celery_client/tests
+...
+
+```
 
