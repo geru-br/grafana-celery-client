@@ -18,12 +18,7 @@ Add to project requirements.txt
 
 Add to project __init__.py or main() method
 
-```shell
-...
--e git+https://github.com/geru-br/grafana-celery-client@master8#egg=grafana_celery_client
-...
-
-```
+```python
 	...
     settings['grafana_celery_client.url'] = get_from_env_or_settings(
         'grafana_celery_client.url', settings,
