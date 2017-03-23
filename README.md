@@ -21,7 +21,7 @@ Add to project requirements.txt
 
 ```
 
-## Configuration
+### Configuration
 Add to project __init__.py or main() method
 
 ```python
@@ -37,7 +37,7 @@ Add to project __init__.py or main() method
 
 ```
 
-## Use
+### Use
 
 ```
 
