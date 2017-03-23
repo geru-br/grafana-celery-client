@@ -50,7 +50,7 @@ send_data.delay(
     'environment={},system=core'.format('dev'),
     count, timestamp=time.time() * 1000000000
 )
-``
+```
 
 
 ## Standalone (using virtualenvwrapper)
