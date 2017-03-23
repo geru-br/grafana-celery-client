@@ -21,6 +21,7 @@ Add to project requirements.txt
 
 ```
 
+## Configuration
 Add to project __init__.py or main() method
 
 ```python
@@ -35,6 +36,22 @@ Add to project __init__.py or main() method
     ...
 
 ```
+
+## Use
+
+```
+
+import time
+from grafana_celery_client.tasks import send_data
+
+# Timestamp must be sent in microseconds
+send_data.delay(
+    'ccb.pool.size',
+    'environment={},system=core'.format('dev'),
+    count, timestamp=time.time() * 1000000000
+)
+``
+
 
 ## Standalone (using virtualenvwrapper)
 
@@ -51,10 +68,8 @@ pip install -r requirements_standalone.txt
 
 
 ```shell
-...
 pip install -r requirements_tests.txt
 nosetests grafana_celery_client/tests
-...
 
 ```
 
