@@ -42,7 +42,7 @@ def send_data(url, measurement, tags, value, timestamp=None, timeout=None,
     data = "{},{} value={} {}".format(measurement, tags, value, int(timestamp))
 
     logger.info("[influx send data] url: {} data: {}".format(url, data))
-    response = requests.post(url, data=data, timeout=timeout, auth=auth)
+    response = requests.post(url, data=data, timeout=timeout, auth=auth, verify=False)
 
     if response.status_code != 204:
         logger.error('bad request: {} {}'.format(response.status_code, response.text))
