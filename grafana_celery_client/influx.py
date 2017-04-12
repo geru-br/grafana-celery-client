@@ -7,9 +7,10 @@ from grafana_celery_client.exceptions import BadRequest
 logger = logging.getLogger(__name__)
 
 
-def send_data(url, measurement, tags, value, timestamp=None, timeout=None):
+def send_data(url, measurement, tags, value, timestamp=None, timeout=None,
+              username=None, password=None):
     """
-
+    Actualy send data to influx db
     """
     if isinstance(tags, dict):
 
@@ -19,6 +20,14 @@ def send_data(url, measurement, tags, value, timestamp=None, timeout=None):
             ntags.append('{}={}'.format(k, v))
 
         tags = ",".join(ntags)
+
+    auth = None
+
+    logger.debug('username: {}'.format(username))
+    logger.debug('password: {}'.format(password))
+
+    if username and password:
+        auth = (username, password,)
 
     if not timestamp:
         timestamp = time.time() * 1000000000
@@ -33,7 +42,7 @@ def send_data(url, measurement, tags, value, timestamp=None, timeout=None):
     data = "{},{} value={} {}".format(measurement, tags, value, int(timestamp))
 
     logger.info("[influx send data] url: {} data: {}".format(url, data))
-    response = requests.post(url, data=data, timeout=timeout)
+    response = requests.post(url, data=data, timeout=timeout, auth=auth)
 
     if response.status_code != 204:
         logger.error('bad request: {} {}'.format(response.status_code, response.text))

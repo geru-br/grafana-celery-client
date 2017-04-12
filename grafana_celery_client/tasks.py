@@ -18,4 +18,6 @@ def send_data(self, measurement, tags, value, timestamp=None, url=None, timeout=
     if not timeout:
         timeout = self.app.conf.grafana_celery_client_timeout
 
-    actual_send_data(url, measurement, tags, value, timestamp, timeout=timeout)
+    actual_send_data(url, measurement, tags, value, timestamp, timeout=timeout,
+                     username=self.app.conf.grafana_celery_client_username,
+                     password=self.app.conf.grafana_celery_client_password)
