@@ -43,3 +43,10 @@ def tasks_send_data(measurement, tags, value, url=None, timestamp=None):
     from grafana_celery_client.tasks import send_data as sd
 
     sd.delay(measurement, tags, value)
+
+@graphite.command(name='send_metric')
+@click.argument('path')
+@click.argument('value')
+@click.option('-t', '--timestamp', default=None)
+def tasks_send_metric(path, value, timestamp=None):
+    tasks.send_metric.delay(path, value, timestamp)
