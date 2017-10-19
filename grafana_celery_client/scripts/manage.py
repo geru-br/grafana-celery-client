@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 import click
 from grafana_celery_client.scripts.grafana import grafana
 import logging

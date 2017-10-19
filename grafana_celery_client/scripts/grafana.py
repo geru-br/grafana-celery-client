@@ -8,7 +8,6 @@ import click
 def grafana():
     pass
 
-
 @grafana.group()
 def influx():
     pass
@@ -44,7 +43,8 @@ def tasks_send_data(measurement, tags, value, url=None, timestamp=None):
 
     sd.delay(measurement, tags, value)
 
-@graphite.command(name='send_metric')
+
+@grafana.command(name='send_metric')
 @click.argument('path')
 @click.argument('value')
 @click.option('-t', '--timestamp', default=None)
