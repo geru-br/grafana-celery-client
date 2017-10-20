@@ -5,7 +5,6 @@ from celery import shared_task
 from grafana_celery_client.influx import send_data as actual_send_data
 from grafana_celery_client.metrics_client import send_metric as actual_send_metric, send_product_metric
 
-
 logger = logging.getLogger(__name__)
 
 
