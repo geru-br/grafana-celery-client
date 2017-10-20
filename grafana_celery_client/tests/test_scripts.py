@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import mock
 from click.testing import CliRunner
-from base import TestCase
+from grafana_celery_client.tests.base import TestCase
 from grafana_celery_client.scripts.grafana import influx_send_data, tasks_send_data
 
 

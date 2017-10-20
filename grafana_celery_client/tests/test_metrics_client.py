@@ -1,5 +1,5 @@
 import mock
-from base import TestCase
+from grafana_celery_client.tests.base import TestCase
 from datetime import datetime
 from grafana_celery_client.metrics_client import send_metric
 

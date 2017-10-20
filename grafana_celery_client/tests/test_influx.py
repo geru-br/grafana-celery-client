@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import mock
-from base import TestCase
+from grafana_celery_client.tests.base import TestCase
 from influxdb import InfluxDBClient
 from datetime import datetime
 from grafana_celery_client.influx import send_metric as send_metric_influx
-
 from grafana_celery_client.influx import send_data
 from grafana_celery_client.exceptions import BadRequest
+
 
 class InfluxTest(TestCase):
     @mock.patch('grafana_celery_client.influx.requests')
