@@ -3,7 +3,7 @@ import logging
 from celery import shared_task
 
 from grafana_celery_client.influx import send_data as actual_send_data
-from grafana_celery_client.metrics_client import send_metric, send_product_metric
+from grafana_celery_client.metrics_client import send_metric as actual_send_metric, send_product_metric
 
 
 logger = logging.getLogger(__name__)
@@ -32,9 +32,9 @@ def send_metric(self, environment, metric, value, tags, timestamp=None, server=N
     if not port:
         port = self.app.conf.metrics_client_port
 
-    type = self.app.conf.metrics_client_type
+    client_type = self.app.conf.metrics_client_type
 
-    send_metric(server, server, port, environment, metric, value, tags, timestamp, type)
+    actual_send_metric(server, port, environment, metric, value, tags, timestamp, client_type)
 
 
 @shared_task(bind=True, queue='metrics_client')
@@ -47,4 +47,4 @@ def send_product_metric(self, environment, product, metric, value, tags, timesta
 
         client_type = self.app.conf.metrics_client_type
 
-    send_product_metric(server, server, port, environment, product,  metric, value, tags, timestamp, client_type)
+    send_product_metric(server, port, environment, product,  metric, value, tags, timestamp, client_type)
