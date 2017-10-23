@@ -95,6 +95,18 @@ data = [
 Environment is a mandatory parameter and treated internaly as a tag
 
 ### Usage example
+The settings file should contain the appropriate configuration. An example with the default settings is shown below.
+
+```
+metrics_server = influxdb.tick-prod.geroo.com.br
+metrics_client_protocol = https
+metrics_client_port = 8086
+metrics_client_timeout = 30
+metrics_client_type = influxdb
+
+```
+
+Functions should be called as celery tasks althoug it is possible to call functions directly.
 
 ```
 from datetime import datetime
@@ -111,8 +123,7 @@ send_metric.delay( 'localhost',
                    'approved', 
                    1, 
                    tags=tags, 
-                   timestamp=timestamp,
-                   client_type='influxdb')
+                   timestamp=timestamp)
 ```
 
 

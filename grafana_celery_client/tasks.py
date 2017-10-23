@@ -44,6 +44,6 @@ def send_product_metric(self, environment, product, metric, value, tags, timesta
     if not port:
         port = self.app.conf.metrics_client_port
 
-        client_type = self.app.conf.metrics_client_type
+    client_type = self.app.conf.metrics_client_type
 
     send_product_metric(server, port, environment, product,  metric, value, tags, timestamp, client_type)
