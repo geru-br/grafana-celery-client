@@ -9,7 +9,8 @@ from grafana_celery_client.graphite import send_metric as send_metric_graphite
 logger = logging.getLogger(__name__)
 
 
-def send_product_metric(server, port, environment, product, metric, value, tags=None, timestamp=None, client_type='influxdb'):
+def send_product_metric(server, port, environment, product, metric, value, tags=None, timestamp=None,
+                        client_type='influxdb'):
     '''
     Send metric with product concept. Product key will be added as a tag for generic metric
     :param server: server domain name
