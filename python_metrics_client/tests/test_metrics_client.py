@@ -19,7 +19,7 @@ class MetricsClientTest(TestCase):
         timestamp = datetime(2017, 10, 19, 18, 12, 51)
         send_metric('localhost', 8086, 'dev', 'test', 10, [{'product': 'consignado'}], timestamp=timestamp,
                     client_type='influxdb')
-        influx_metric_mock.assert_called_with('localhost', 8086, 'dev', 'test', 10, [{'product': 'consignado'}],
-                                              timestamp)
+        influx_metric_mock.assert_called_with('localhost', 'root', 'root', 8086, 'dev', 'test', 10,
+                                              [{'product': 'consignado'}], timestamp)
 
 

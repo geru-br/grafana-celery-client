@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 def send_product_metric(server, port, environment, product, metric, value, tags=None, timestamp=None,
-                        client_type='influxdb'):
+                        client_type='influxdb', username='root', password='root'):
     '''
     Send metric with product concept. Product key will be added as a tag for generic metric
     :param server: server domain name
@@ -22,6 +22,8 @@ def send_product_metric(server, port, environment, product, metric, value, tags=
     :param tags: list of tags in the form [{'key1': value1},...,{'keyN': valueN}]
     :param timestamp: datetime with metric time
     :param type: Type of metric collection egine (eg. 'graphite' or 'influxdb')
+    :param username: Metric DB username if applicable
+    :param password: Metric DB password if applicable
     :return:
     '''
 
@@ -32,10 +34,11 @@ def send_product_metric(server, port, environment, product, metric, value, tags=
     else:
         tags = [product_tag]
 
-    send_metric(server, port, environment, metric, value, tags, timestamp, client_type)
+    send_metric(server, username, password, port, environment, metric, value, tags, timestamp, client_type)
 
 
-def send_metric(server, port, environment, metric, value, tags=None, timestamp=None, client_type='influxdb'):
+def send_metric(server, port, environment, metric, value, tags=None, timestamp=None, client_type='influxdb',
+                username='root', password='root'):
     '''
     Send metric generic metric
     :param server: server domain name
@@ -52,6 +55,6 @@ def send_metric(server, port, environment, metric, value, tags=None, timestamp=N
         timestamp = datetime.utcnow()
 
     if client_type == 'influxdb':
-        send_metric_influx(server, port, environment, metric, value, tags, timestamp)
+        send_metric_influx(server, username, password, port, environment, metric, value, tags, timestamp)
     elif client_type == 'graphite':
         send_metric_graphite(server, port, environment, metric, value, tags, timestamp)
