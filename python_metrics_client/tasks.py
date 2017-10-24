@@ -14,10 +14,10 @@ def send_data(self, measurement, tags, value, timestamp=None, url=None, timeout=
     # from celery.contrib import rdb; rdb.set_trace()
 
     if not url:
-        url = self.app.conf.grafana_celery_client_url
+        url = self.app.conf.python_metrics_client
 
     if not timeout:
-        timeout = self.app.conf.grafana_celery_client_timeout
+        timeout = self.app.conf.python_metrics_client_timeout
 
     actual_send_data(url, measurement, tags, value, timestamp, timeout=timeout)
 

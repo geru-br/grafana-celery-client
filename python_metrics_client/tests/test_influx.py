@@ -53,7 +53,6 @@ class InfluxTest(TestCase):
 
         self.assertRaises(BadRequest, send_data, 'url', 'measurement', 'tag=value', 2, 1490223248024070912)
 
-
     @mock.patch.object(InfluxDBClient, 'write_points')
     def test_send_metric_with_time(self, influx_write):
 
