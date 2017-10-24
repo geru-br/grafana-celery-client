@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-import logging
+from celery.utils.log import get_task_logger
 from celery import shared_task
 
 from grafana_celery_client.influx import send_data as actual_send_data
 from grafana_celery_client.metrics_client import send_metric as actual_send_metric, send_product_metric
 
-logger = logging.getLogger(__name__)
+logger = get_task_logger(__name__)
 
 
 @shared_task(bind=True, queue='grafana_celery_client')

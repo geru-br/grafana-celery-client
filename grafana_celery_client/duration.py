@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 from timeit import default_timer as timer
 from datetime import datetime
-from tasks import send_metric
+
 import functools
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def timeit(environment, process_name, metric=None, tags=None, server=None, port=None):
@@ -19,7 +23,7 @@ def timeit(environment, process_name, metric=None, tags=None, server=None, port=
     def _timeit(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-
+            from grafana_celery_client.tasks_not_shared import send_metric_tm
             _process_name = process_name
             _tags = tags
             _metric = metric
@@ -41,7 +45,7 @@ def timeit(environment, process_name, metric=None, tags=None, server=None, port=
             ret = func(*args, **kwargs)
             duration = timer() - start
             localtime = datetime.utcnow()
-            send_metric.delay(environment, _metric, duration, _tags, localtime, server, port)
+            send_metric_tm.delay(environment, _metric, duration, _tags, localtime, server, port)
             return ret
 
         return wrapper
