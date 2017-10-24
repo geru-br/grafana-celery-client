@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
 import mock
-from grafana_celery_client.tests.base import TestCase
+from python_metrics_client.tests.base import TestCase
 from influxdb import InfluxDBClient
 from datetime import datetime
-from grafana_celery_client.influx import send_metric as send_metric_influx
-from grafana_celery_client.influx import send_data
-from grafana_celery_client.exceptions import BadRequest
+from python_metrics_client.influx import send_metric as send_metric_influx
+from python_metrics_client.influx import send_data
+from python_metrics_client.exceptions import BadRequest
 
 
 class InfluxTest(TestCase):
-    @mock.patch('grafana_celery_client.influx.requests')
+    @mock.patch('python_metrics_client.influx.requests')
     def test_tags_dict(self, requests_mock):
         mocked_response = mock.Mock()
         requests_mock.post.return_value = mocked_response
@@ -23,7 +23,7 @@ class InfluxTest(TestCase):
         requests_mock.post.assert_called_with('url', data='measurement,tag=value value=2 1490223248024070912',
                                               timeout=30)
 
-    @mock.patch('grafana_celery_client.influx.requests')
+    @mock.patch('python_metrics_client.influx.requests')
     def test_tags_string(self, requests_mock):
         mocked_response = mock.Mock()
         requests_mock.post.return_value = mocked_response
@@ -35,7 +35,7 @@ class InfluxTest(TestCase):
         requests_mock.post.assert_called_with('url', data='measurement,tag=value value=2 1490223248024070912',
                                               timeout=30)
 
-    @mock.patch('grafana_celery_client.influx.requests')
+    @mock.patch('python_metrics_client.influx.requests')
     def test_bad_request_500(self, requests_mock):
         mocked_response = mock.Mock()
         requests_mock.post.return_value = mocked_response
@@ -44,7 +44,7 @@ class InfluxTest(TestCase):
 
         self.assertRaises(BadRequest, send_data, 'url', 'measurement', 'tag=value', 2, 1490223248024070912)
 
-    @mock.patch('grafana_celery_client.influx.requests')
+    @mock.patch('python_metrics_client.influx.requests')
     def test_bad_request_400(self, requests_mock):
         mocked_response = mock.Mock()
         requests_mock.post.return_value = mocked_response

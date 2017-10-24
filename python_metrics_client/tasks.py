@@ -2,13 +2,13 @@
 from celery.utils.log import get_task_logger
 from celery import shared_task
 
-from grafana_celery_client.influx import send_data as actual_send_data
-from grafana_celery_client.metrics_client import send_metric as actual_send_metric, send_product_metric
+from python_metrics_client.influx import send_data as actual_send_data
+from python_metrics_client.metrics_client import send_metric as actual_send_metric, send_product_metric
 
 logger = get_task_logger(__name__)
 
 
-@shared_task(bind=True, queue='grafana_celery_client')
+@shared_task(bind=True, queue='python_metrics_client')
 def send_data(self, measurement, tags, value, timestamp=None, url=None, timeout=None):
 
     # from celery.contrib import rdb; rdb.set_trace()

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from celery.utils.log import get_task_logger
 from pyramid_transactional_celery import task_tm
-from grafana_celery_client.metrics_client import send_metric as actual_send_metric
+from python_metrics_client.metrics_client import send_metric as actual_send_metric
 
 logger = get_task_logger(__name__)
 

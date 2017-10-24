@@ -4,8 +4,8 @@ from celery import current_app
 
 def includeme(settings):
 
-    current_app.conf.grafana_celery_client_url = settings.registry.settings.get('grafana_celery_client.url')
-    current_app.conf.grafana_celery_client_timeout = settings.registry.settings.get('grafana_celery_client.timeout', 30)
+    current_app.conf.grafana_celery_client_url = settings.registry.settings.get('python_metrics_client.url')
+    current_app.conf.grafana_celery_client_timeout = settings.registry.settings.get('python_metrics_client.timeout', 30)
 
     current_app.conf.metrics_server = settings.registry.settings.get('metrics_server', 'influxdb.tick-prod.geroo.com.br')
     current_app.conf.metrics_client_protocol = settings.registry.settings.get('metrics_client_protocol', 'https')

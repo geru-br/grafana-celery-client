@@ -3,8 +3,8 @@ import logging
 
 from datetime import datetime
 
-from grafana_celery_client.influx import send_metric as send_metric_influx
-from grafana_celery_client.graphite import send_metric as send_metric_graphite
+from python_metrics_client.influx import send_metric as send_metric_influx
+from python_metrics_client.graphite import send_metric as send_metric_graphite
 
 logger = logging.getLogger(__name__)
 

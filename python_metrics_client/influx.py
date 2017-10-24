@@ -5,7 +5,7 @@ import requests
 
 from influxdb import InfluxDBClient
 from datetime import datetime
-from grafana_celery_client.exceptions import BadRequest
+from python_metrics_client.exceptions import BadRequest
 
 logger = logging.getLogger(__name__)
 
