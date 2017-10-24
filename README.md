@@ -1,4 +1,4 @@
-# Grafana celery client
+# Python metics client
 
 This lib should be used by pyramid. It can be used standalone. :-)
 
@@ -42,7 +42,7 @@ Add to project __init__.py or main() method
 ```
 
 import time
-from grafana_celery_client.tasks import send_data
+from python_metrics_client.tasks import send_data
 
 # Timestamp must be sent in microseconds
 send_data.delay(
@@ -110,7 +110,7 @@ Functions should be called as celery tasks althoug it is possible to call functi
 
 ```
 from datetime import datetime
-from grafana_celery_client.tasks import send_metric
+from python_metrics_client.tasks import send_metric
 
 # Timestamp must be datetime. If it is note provided, utcnow will be used as default
 timestamp = datetime.utcnow()
@@ -126,15 +126,33 @@ send_metric.delay( 'localhost',
                    timestamp=timestamp)
 ```
 
+### Timeit decorator
+
+This library can also be used to measure how long a particular function is taking to run by using the @timeit decorator. The same set of arguments that is supported by send_metric() is supported by @timeit, including server, port, tags and timestamp. A typical usage is shown below.
+
+```
+from python_metrics_client.duration import timeit
+
+...
+
+
+@timeit(environment='production', process_name='loan_rate', tags=[{'service': 'core'}])
+def loan_rate(loan):
+
+
+```
+
+The metric itself can be renamed in the __metric__ argument. If no metric name is provided, it will be set to 'duration' byt default. Tags are optional but useful for metric data grouping measurements from different functions.
+
 
 
 ## Standalone (using virtualenvwrapper)
 
 
 ```shell
-git clone git@github.com:geru-br/grafana-celery-client.git
-cd grafana-celery-client
-mkvirtualenv grafana-celery-client
+git clone git@github.com:geru-br/python-metrics-client.git
+cd python-metrics-client
+mkvirtualenv python-metrics-client
 pip install -r requirements_standalone.txt
 ```
 
@@ -144,7 +162,7 @@ pip install -r requirements_standalone.txt
 
 ```shell
 pip install -r requirements_tests.txt
-nosetests grafana_celery_client/tests
+nosetests python_metrics_client/tests
 
 ```
 
