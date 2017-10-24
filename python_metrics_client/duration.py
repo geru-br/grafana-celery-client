@@ -23,7 +23,7 @@ def timeit(environment, process_name, metric=None, tags=None, server=None, port=
     def _timeit(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            from python_metrics_client.tasks_not_shared import send_metric_tm
+            from python_metrics_client.tasks import send_metric_tm
             _process_name = process_name
             _tags = tags
             _metric = metric
