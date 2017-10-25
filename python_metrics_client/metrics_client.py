@@ -21,7 +21,7 @@ def send_product_metric(server, port, environment, product, metric, value, tags=
     :param value: metric value
     :param tags: list of tags in the form [{'key1': value1},...,{'keyN': valueN}]
     :param timestamp: datetime with metric time
-    :param type: Type of metric collection egine (eg. 'graphite' or 'influxdb')
+    :param client_type: Type of metric collection egine (eg. 'graphite' or 'influxdb')
     :param username: Metric DB username if applicable
     :param password: Metric DB password if applicable
     :return:
@@ -34,7 +34,7 @@ def send_product_metric(server, port, environment, product, metric, value, tags=
     else:
         tags = [product_tag]
 
-    send_metric(server, username, password, port, environment, metric, value, tags, timestamp, client_type)
+    send_metric(server, port, environment, metric, value, tags, timestamp, client_type, username, password)
 
 
 def send_metric(server, port, environment, metric, value, tags=None, timestamp=None, client_type='influxdb',
@@ -48,7 +48,9 @@ def send_metric(server, port, environment, metric, value, tags=None, timestamp=N
     :param value: metric value
     :param tags: list of tags in the form [{'key1': value1},...,{'keyN': valueN}]
     :param timestamp: datetime with metric time
-    :param type: Type of metric collection egine (eg. 'graphite' or 'influxdb')
+    :param client_type: Type of metric collection egine (eg. 'graphite' or 'influxdb')
+    :param username: Metric DB username if applicable
+    :param password: Metric DB password if applicable
     :return:
     '''
     if not timestamp:
