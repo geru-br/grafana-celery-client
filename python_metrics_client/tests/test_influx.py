@@ -95,5 +95,3 @@ class InfluxTest(TestCase):
         send_metric_influx('localhost', 'root', 'root', 8086, 'dev', 'test', 10, timestamp=timestamp)
 
         influx_write.assert_called_with(data)
-
-
