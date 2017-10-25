@@ -9,7 +9,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def timeit(environment, process_name, metric=None, tags=None, server=None, port=None):
+def timeit(environment, process_name=None, metric=None, tags=None, server=None, port=None):
     '''
     :param environment: current environment (dev, stage, production)
     :param process_name: Name of the process that is being measured.
