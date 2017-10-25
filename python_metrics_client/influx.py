@@ -57,13 +57,16 @@ def send_metric(server, username, password, port, environment, metric, value, ta
     :return:
     '''
 
-    if not timestamp:
-        timestamp = datetime.utcnow()
+    # In python3, celery converts datetime to a string.
+    if type(timestamp) is not str:
+        str_timestamp = timestamp.strftime('%Y-%m-%dT%H:%M:%SZ')
+    else:
+        str_timestamp = timestamp
 
     data = [
                 {
                     'measurement': metric,
-                    'time': timestamp.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                    'time': str_timestamp,
                     'fields': {
                         'value': value
                     },
