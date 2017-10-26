@@ -16,7 +16,7 @@ Add to project requirements.txt
 
 ```shell
 ...
--e git+https://github.com/geru-br/grafana-celery-client@master8#egg=python_metrics_client
+-e git+https://github.com/geru-br/python-metrics-client@master8#egg=python_metrics_client
 ...
 
 ```
