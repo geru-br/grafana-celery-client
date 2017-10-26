@@ -3,9 +3,28 @@ import logging
 import time
 import six
 import socket
+from datetime import datetime
 
 
 logger = logging.getLogger(__name__)
+
+
+def _convert_timestamp(timestamp):
+    '''
+    :param timestamp: datetime with the timestamp date and time or str in the appropriate format
+    :return: string with the corresponding date and time
+    '''
+
+    if not timestamp:
+        return int(time.time())
+    elif type(timestamp) is datetime:
+        return time.mktime(timestamp.timetuple())
+    elif type(timestamp) is str:
+        _datetime = datetime.strptime(timestamp[0:19], '%Y-%m-%dT%H:%M:%S')
+        return int(time.mktime(_datetime.timetuple()))
+    else:
+        logger.info('{} is not a valid timestamp type'.format(type(timestamp)))
+        raise TypeError
 
 
 def send_metric(server, port, environment, metric, value, tags=None, timestamp=None):
@@ -21,10 +40,8 @@ def send_metric(server, port, environment, metric, value, tags=None, timestamp=N
     :return:
     '''
 
-    if not timestamp:
-        ts = int(time.time())
-    else:
-        ts = time.mktime(timestamp.timetuple())
+    # In python3, celery converts datetime to a string.
+    ts = _convert_timestamp(timestamp)
 
     metric_path = environment + '.'
 
@@ -36,6 +53,6 @@ def send_metric(server, port, environment, metric, value, tags=None, timestamp=N
     metric_path += metric
 
     sock = socket.socket()
-    sock.connect((server, port))
+    sock.connect((server, int(port)))
     sock.send(six.b("%s %f %d\n" % (metric_path, value, ts)))
     sock.close()

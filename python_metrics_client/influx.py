@@ -10,6 +10,24 @@ from python_metrics_client.exceptions import BadRequest
 logger = logging.getLogger(__name__)
 
 
+def _convert_timestamp(timestamp):
+    '''
+    :param timestamp: datetime with the timestamp date and time or str in the appropriate format
+    :return: string with the corresponding date and time
+    '''
+
+    if not timestamp:
+        timestamp = datetime.utcnow()
+
+    if type(timestamp) is datetime:
+        return timestamp.strftime('%Y-%m-%dT%H:%M:%SZ')
+    elif type(timestamp) is str:
+        return timestamp
+    else:
+        logger.info('{} is not a valid timestamp type'.format(type(timestamp)))
+        raise TypeError
+
+
 def send_data(url, measurement, tags, value, timestamp=None, timeout=None):
     """
     """
@@ -58,10 +76,7 @@ def send_metric(server, username, password, port, environment, metric, value, ta
     '''
 
     # In python3, celery converts datetime to a string.
-    if type(timestamp) is not str:
-        str_timestamp = timestamp.strftime('%Y-%m-%dT%H:%M:%SZ')
-    else:
-        str_timestamp = timestamp
+    str_timestamp = _convert_timestamp(timestamp)
 
     data = [
                 {
