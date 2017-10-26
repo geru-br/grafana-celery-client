@@ -1,13 +1,13 @@
-
+# -*- coding: utf-8 -*-
 import mock
 from click.testing import CliRunner
-from base import TestCase
-from grafana_celery_client.scripts.grafana import influx_send_data, tasks_send_data
+from python_metrics_client.tests.base import TestCase
+from python_metrics_client.scripts.grafana import influx_send_data, tasks_send_data
 
 
 class ScriptsTest(TestCase):
 
-    @mock.patch('grafana_celery_client.influx.requests')
+    @mock.patch('python_metrics_client.influx.requests')
     def test_influx_send_data(self, requests_mock):
 
         mocked_response = mock.Mock()
@@ -22,7 +22,7 @@ class ScriptsTest(TestCase):
         self.assertEquals(1, requests_mock.post.call_count)
         requests_mock.post.assert_called_with('url', data='measurement,tag=value value=2 1490223248024070912', timeout=30)
 
-    @mock.patch('grafana_celery_client.tasks.send_data')
+    @mock.patch('python_metrics_client.tasks.send_data')
     def test_tasks_send_data(self, send_data_mock):
 
         runner = CliRunner()
