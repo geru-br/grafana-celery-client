@@ -1,12 +1,31 @@
 # -*- coding: utf-8 -*-
 from timeit import default_timer as timer
 from datetime import datetime
-
+from celery import task
 import functools
 
 import logging
+from python_metrics_client.metrics_client import send_metric as actual_send_metric
 
 logger = logging.getLogger(__name__)
+
+
+@task(bind=True, queue='metrics_client')
+def _send_metric(self, environment, metric, value, tags, timestamp=None, server=None, port=None):
+    '''
+    This task should only be used by the timeit decorator
+    '''
+
+    logger.info('Sending metric {}'.format(metric))
+    if not server:
+        server = self.app.conf.metrics_server
+
+    if not port:
+        port = self.app.conf.metrics_client_port
+
+    client_type = self.app.conf.metrics_client_type
+
+    actual_send_metric(server, port, environment, metric, value, tags, timestamp, client_type)
 
 
 def timeit(environment, process_name=None, metric=None, tags=None, server=None, port=None):
@@ -23,7 +42,6 @@ def timeit(environment, process_name=None, metric=None, tags=None, server=None, 
     def _timeit(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            from python_metrics_client.tasks import send_metric_tm
             _process_name = process_name
             _tags = tags
             _metric = metric
@@ -45,7 +63,7 @@ def timeit(environment, process_name=None, metric=None, tags=None, server=None, 
             ret = func(*args, **kwargs)
             duration = timer() - start
             localtime = datetime.utcnow()
-            send_metric_tm.delay(environment, _metric, duration, _tags, localtime, server, port)
+            _send_metric.delay(environment, _metric, duration, _tags, localtime, server, port)
             return ret
 
         return wrapper
