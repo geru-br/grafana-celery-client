@@ -8,7 +8,6 @@ import click
 def grafana():
     pass
 
-
 @grafana.group()
 def influx():
     pass
@@ -22,7 +21,7 @@ def influx():
 @click.option('-t', '--timestamp', default=None)
 def influx_send_data(url, measurement, tags, value, timestamp=None):
 
-    from grafana_celery_client.influx import send_data as sd
+    from python_metrics_client.influx import send_data as sd
 
     sd(url, measurement, tags, value, timestamp=timestamp)
 
@@ -40,6 +39,14 @@ def tasks():
 @click.option('-t', '--timestamp', default=None)
 def tasks_send_data(measurement, tags, value, url=None, timestamp=None):
 
-    from grafana_celery_client.tasks import send_data as sd
+    from python_metrics_client.tasks import send_data as sd
 
     sd.delay(measurement, tags, value)
+
+
+@grafana.command(name='send_metric')
+@click.argument('path')
+@click.argument('value')
+@click.option('-t', '--timestamp', default=None)
+def tasks_send_metric(path, value, timestamp=None):
+    tasks.send_metric.delay(path, value, timestamp)

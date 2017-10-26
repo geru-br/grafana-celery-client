@@ -13,13 +13,13 @@ entry_points = None
 if os.environ.get('STANDALONE'):
     entry_points = """\
       [console_scripts]
-      manage = grafana_celery_client.manage:cli
+      manage = python_metrics_client.manage:cli
       """
 
 
-setup(name='grafana_celery_client',
+setup(name='python_metrics_client',
       version=VERSION,
-      description='grafana celery client',
+      description='python metrics client',
       classifiers=[
           "Programming Language :: Python",
       ],
@@ -28,10 +28,10 @@ setup(name='grafana_celery_client',
       url='',
       keywords='grafana',
       packages=find_packages(exclude=[
-          'grafana_celery_client.test', 'grafana_celery_client.test.*']),
+          'python_metrics_client.test', 'python_metrics_client.test.*']),
       include_package_data=True,
       zip_safe=False,
-      test_suite='grafana_celery_client',
+      test_suite='python_metrics_client',
       install_requires=requires,
       entry_points=entry_points,
       )
