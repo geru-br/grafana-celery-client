@@ -98,11 +98,14 @@ Environment is a mandatory parameter and treated internaly as a tag
 The settings file should contain the appropriate configuration. An example with the default settings is shown below.
 
 ```
-metrics_server = influxdb.tick-prod.geroo.com.br
-metrics_client_protocol = https
-metrics_client_port = 8086
+metrics_server = influxdb.tick.prod.geroo.com.br
+metrics_client_protocol = http
+metrics_client_port = 80
 metrics_client_timeout = 30
 metrics_client_type = influxdb
+metrics_user = root
+metrics_password = root
+metrics_environment = prduction
 
 ```
 
@@ -119,11 +122,11 @@ tags = [{'product': 'consignado'}]
 
 send_metric.delay( 'localhost',
                    8086, 
-                   'production', 
-                   'approved', 
+                   approved', 
                    1, 
                    tags=tags, 
-                   timestamp=timestamp)
+                   timestamp=timestamp,
+                   environment='production')
 ```
 
 ### Timeit decorator
