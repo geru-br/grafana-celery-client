@@ -28,7 +28,7 @@ def _send_metric(self, environment, metric, value, tags, timestamp=None, server=
 
     client_type = self.app.conf.metrics_client_type
 
-    actual_send_metric(server, port, environment, metric, value, tags, timestamp, client_type)
+    actual_send_metric(server, port, metric, value, tags, timestamp, environment,  client_type)
 
 
 def timeit(environment=None, process_name=None, metric=None, tags=None, server=None, port=None):

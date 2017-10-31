@@ -36,7 +36,7 @@ def send_metric(self, metric, value, tags, timestamp=None, environment=None, ser
     username = self.app.conf.metrics_user
     password = self.app.conf.metrics_user
 
-    actual_send_metric(server, port, environment, metric, value, tags, timestamp, client_type, username, password)
+    actual_send_metric(server, port, metric, value, tags, timestamp, environment, client_type, username, password)
 
 
 @shared_task(bind=True, queue='metrics_client')
