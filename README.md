@@ -105,7 +105,7 @@ metrics_client_timeout = 30
 metrics_client_type = influxdb
 metrics_user = root
 metrics_password = root
-metrics_environment = prduction
+metrics_environment = production
 
 ```
 
@@ -115,7 +115,7 @@ Functions should be called as celery tasks althoug it is possible to call functi
 from datetime import datetime
 from python_metrics_client.tasks import send_metric
 
-# Timestamp must be datetime. If it is note provided, utcnow will be used as default
+# When acling a task, timestamp must be a datetime string in isoformat. If it is note provided, utcnow will be used as default
 timestamp = datetime.utcnow()
 
 tags = [{'product': 'consignado'}]
@@ -125,7 +125,7 @@ send_metric.delay( 'localhost',
                    approved', 
                    1, 
                    tags=tags, 
-                   timestamp=timestamp,
+                   timestamp=timestamp.isoformat(),
                    environment='production')
 ```
 
