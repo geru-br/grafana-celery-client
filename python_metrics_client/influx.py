@@ -23,6 +23,8 @@ def _convert_timestamp(timestamp):
         return timestamp.strftime('%Y-%m-%dT%H:%M:%SZ')
     elif type(timestamp) is str:
         return timestamp
+    elif type(timestamp) is unicode:
+        return timestamp
     else:
         logger.info('{} is not a valid timestamp type'.format(type(timestamp)))
         raise TypeError

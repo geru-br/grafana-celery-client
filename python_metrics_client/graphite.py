@@ -22,6 +22,9 @@ def _convert_timestamp(timestamp):
     elif type(timestamp) is str:
         _datetime = datetime.strptime(timestamp[0:19], '%Y-%m-%dT%H:%M:%S')
         return int(time.mktime(_datetime.timetuple()))
+    elif type(timestamp) is unicode:
+        _datetime = datetime.strptime(timestamp[0:19], '%Y-%m-%dT%H:%M:%S')
+        return int(time.mktime(_datetime.timetuple()))
     else:
         logger.info('{} is not a valid timestamp type'.format(type(timestamp)))
         raise TypeError
