@@ -65,7 +65,7 @@ def timeit(environment=None, process_name=None, metric=None, tags=None, server=N
             start = timer()
             ret = func(*args, **kwargs)
             duration = timer() - start
-            localtime = datetime.utcnow()
+            localtime = datetime.utcnow().isoformat()
             _send_metric.delay(environment, _metric, duration, _tags, localtime, server, port)
             return ret
 

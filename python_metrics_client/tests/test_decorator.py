@@ -21,4 +21,4 @@ class DecoratorTest(TestCase):
             # With freezegun, default_timer() wll always get the same time, so time elapsed will be 0.0.
             # Time elapsed is unpredictable otherwise
             requests_mock.assert_called_with('dev', 'duration', 0.0, [{'process_name': 'decorated_function'}],
-                                             datetime(2017, 10, 25, 10, 0), None, None)
+                                             '2017-10-25T10:00:00', None, None)
