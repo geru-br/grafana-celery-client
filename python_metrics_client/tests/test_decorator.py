@@ -14,7 +14,7 @@ def decorated_function():
 
 class DecoratorTest(TestCase):
 
-    @mock.patch('python_metrics_client.tasks.send_metric_tm.delay')
+    @mock.patch('python_metrics_client.duration._send_metric.delay')
     def test_timeit(self, requests_mock):
         with freeze_time(datetime(2017, 10, 25, 10, 00, 00)):
             decorated_function()

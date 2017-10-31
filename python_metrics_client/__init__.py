@@ -14,5 +14,6 @@ def includeme(settings):
     current_app.conf.metrics_client_type = settings.registry.settings.get('metrics_client_type', 'influxdb')
     current_app.conf.metrics_user = settings.registry.settings.get('metrics_client_type', 'root')
     current_app.conf.metrics_password = settings.registry.settings.get('metrics_client_type', 'root')
+    current_app.conf.environment = settings.registry.settings.get('metrics_environment', 'production')
 
     settings.scan()

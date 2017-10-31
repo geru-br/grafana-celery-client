@@ -9,8 +9,8 @@ from python_metrics_client.graphite import send_metric as send_metric_graphite
 logger = logging.getLogger(__name__)
 
 
-def send_product_metric(server, port, environment, product, metric, value, tags=None, timestamp=None,
-                        client_type='influxdb', username='root', password='root'):
+def send_product_metric(server, port, product, metric, value, tags=None, timestamp=None,
+                        environment=None, client_type='influxdb', username='root', password='root'):
     '''
     Send metric with product concept. Product key will be added as a tag for generic metric
     :param server: server domain name
@@ -37,7 +37,7 @@ def send_product_metric(server, port, environment, product, metric, value, tags=
     send_metric(server, port, environment, metric, value, tags, timestamp, client_type, username, password)
 
 
-def send_metric(server, port, environment, metric, value, tags=None, timestamp=None, client_type='influxdb',
+def send_metric(server, port,  metric, value, tags=None, timestamp=None, environment=None, client_type='influxdb',
                 username='root', password='root'):
     '''
     Send metric generic metric
