@@ -20,7 +20,7 @@ def send_data(self, measurement, tags, value, timestamp=None, url=None, timeout=
 
 
 @shared_task(bind=True, queue='metrics_client')
-def send_metric(self, environment, metric, value, tags, timestamp=None, server=None, port=None):
+def send_metric(self, metric, value, tags, timestamp=None, environment=None, server=None, port=None):
 
     if not server:
         server = self.app.conf.metrics_server
@@ -29,15 +29,18 @@ def send_metric(self, environment, metric, value, tags, timestamp=None, server=N
         port = self.app.conf.metrics_client_port
 
     client_type = self.app.conf.metrics_client_type
+
+    if not environment:
+        environment = self.app.conf.metrics_environment
 
     username = self.app.conf.metrics_user
     password = self.app.conf.metrics_user
 
-    actual_send_metric(server, port, environment, metric, value, tags, timestamp, client_type, username, password)
+    actual_send_metric(server, port, metric, value, tags, timestamp, environment, client_type, username, password)
 
 
 @shared_task(bind=True, queue='metrics_client')
-def send_product_metric(self, environment, product, metric, value, tags, timestamp=None, server=None, port=None):
+def send_product_metric(self, product, metric, value, tags, timestamp=None, environment=None, server=None, port=None):
     if not server:
         server = self.app.conf.metrics_server
 
@@ -45,6 +48,9 @@ def send_product_metric(self, environment, product, metric, value, tags, timesta
         port = self.app.conf.metrics_client_port
 
     client_type = self.app.conf.metrics_client_type
+
+    if not environment:
+        environment = self.app.conf.metrics_environment
 
     username = self.app.conf.metrics_user
     password = self.app.conf.metrics_user
