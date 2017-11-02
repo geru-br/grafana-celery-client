@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from timeit import default_timer as timer
 from datetime import datetime
-from celery import task
+from celery import shared_task
 import functools
 
 import logging
@@ -10,7 +10,7 @@ from python_metrics_client.metrics_client import send_metric as actual_send_metr
 logger = logging.getLogger(__name__)
 
 
-@task(bind=True, queue='metrics_client')
+@shared_task(bind=True, queue='metrics_client')
 def _send_metric(self, environment, metric, value, tags, timestamp=None, server=None, port=None):
     '''
     This task should only be used by the timeit decorator
