@@ -2,7 +2,7 @@
 from celery.utils.log import get_task_logger
 from celery import shared_task
 from python_metrics_client.influx import send_data as actual_send_data
-from python_metrics_client.metrics_client import send_metric as actual_send_metric, send_product_metric
+from python_metrics_client.metrics_client import send_metric as actual_send_metric, send_product_metric as actual_send_product_metric
 
 logger = get_task_logger(__name__)
 
@@ -55,7 +55,7 @@ def send_product_metric(self, product, metric, value, tags, timestamp=None, envi
     username = self.app.conf.metrics_user
     password = self.app.conf.metrics_user
 
-    send_product_metric(server, port, environment, product,  metric, value, tags, timestamp, client_type,
+    actual_send_product_metric(server, port, environment, product,  metric, value, tags, timestamp, client_type,
                         username, password)
 
 
