@@ -34,10 +34,12 @@ def send_product_metric(server, port, product, metric, value, tags=None, timesta
     else:
         tags = [product_tag]
 
-    send_metric(server, port, environment, metric, value, tags, timestamp, client_type, username, password)
+    logger.debug('send_product_metric - timestamp {}'.format(timestamp))
+    send_metric(server, port, metric, value, tags, timestamp=timestamp,
+                client_type=client_type, username=username, password=password, environment=environment)
 
 
-def send_metric(server, port,  metric, value, tags=None, timestamp=None, environment=None, client_type='influxdb',
+def send_metric(server, port, metric, value, tags=None, timestamp=None, environment=None, client_type='influxdb',
                 username='root', password='root'):
     '''
     Send metric generic metric
@@ -57,6 +59,7 @@ def send_metric(server, port,  metric, value, tags=None, timestamp=None, environ
         timestamp = datetime.utcnow()
 
     if client_type == 'influxdb':
+        logger.debug('send_metric: using influxdb')
         send_metric_influx(server, username, password, port, environment, metric, value, tags, timestamp)
     elif client_type == 'graphite':
         send_metric_graphite(server, port, environment, metric, value, tags, timestamp)

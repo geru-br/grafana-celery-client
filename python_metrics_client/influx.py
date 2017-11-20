@@ -78,6 +78,9 @@ def send_metric(server, username, password, port, environment, metric, value, ta
     '''
 
     # In python3, celery converts datetime to a string.
+
+    logger.info('influxdb send metric')
+
     str_timestamp = _convert_timestamp(timestamp)
 
     data = [
@@ -93,9 +96,14 @@ def send_metric(server, username, password, port, environment, metric, value, ta
                 }
            ]
 
+    logger.info('influxdb send metric: tags {}'.format(tags))
+
     if tags is not None:
         for tag in tags:
             data[0]['tags'].update(tag)
+
+    logger.info('influxdb send metric: {}'.format(data))
+    logger.debug('send_metric info - server: {} port: {} username: {}'.format(server, port, username))
 
     client = InfluxDBClient(server, int(port), username, password, 'metrics')
     client.write_points(data)

@@ -2,6 +2,7 @@
 
 
 import click
+import json
 
 
 @click.group()
@@ -31,7 +32,7 @@ def tasks():
     pass
 
 
-@tasks.command(name='send')
+@tasks.command(name='send-data')
 @click.argument('measurement')
 @click.argument('tags')
 @click.argument('value')
@@ -41,12 +42,21 @@ def tasks_send_data(measurement, tags, value, url=None, timestamp=None):
 
     from python_metrics_client.tasks import send_data as sd
 
+    tags = json.loads(tags)
+
     sd.delay(measurement, tags, value)
 
 
-@grafana.command(name='send_metric')
-@click.argument('path')
+@tasks.command(name='send-metric')
+@click.argument('metric')
+@click.argument('tags')
 @click.argument('value')
+@click.option('-u', '--url', default=None)
 @click.option('-t', '--timestamp', default=None)
-def tasks_send_metric(path, value, timestamp=None):
-    tasks.send_metric.delay(path, value, timestamp)
+def tasks_send_metric(metric, tags, value, url=None, timestamp=None):
+
+    from python_metrics_client.tasks import send_metric as sm
+
+    tags = json.loads(tags)
+
+    sm.delay(metric, value, tags)
