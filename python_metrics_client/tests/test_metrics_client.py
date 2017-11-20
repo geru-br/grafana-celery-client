@@ -28,4 +28,4 @@ class MetricsClientTest(TestCase):
         send_product_metric('localhost', 8086, 'consignado', 'test', 10, [{'additional_tag': 'tag'}],
                             timestamp=timestamp, client_type='influxdb', environment='dev')
         influx_metric_mock.assert_called_with('localhost', 'root', 'root', 8086, 'dev', 'test', 10,
-                                              [{'additional_tag': 'tag'}, {'product': 'consignado'}], timestamp )
+                                              [{'additional_tag': 'tag'}, {'product': 'consignado'}], timestamp)
