@@ -16,7 +16,7 @@ Add to project requirements.txt
 
 ```shell
 ...
--e git+https://github.com/geru-br/python-metrics-client@master8#egg=python_metrics_client
+-e git+https://github.com/geru-br/python-metrics-client.git@master#egg=python_metrics_client
 ...
 
 ```
@@ -58,7 +58,7 @@ A new set of functions were added to support multiple types of metrics. By defau
 
 ### Interoperability
 
-InfluxDb and grapite are different in the way they organize metrics. Graphite metrics are stored in a tree structured with levels separated by dots. Influx uses a more complex strucutre allowing the use of tags. To ensure full compatibility, tags are passed in an optional parameter to the base send_metric function in the form
+InfluxDb and grapite are different in the way they organize metrics. Graphite metrics are stored in a tree structured with levels separated by dots. Influx uses a more complex structure allowing the use of tags. To ensure full compatibility, tags are passed as an optional parameter to the base send_metric function in the form
 
 ```
 tags = [{'key1': value1},{'key2': value2},...,{'keyN': valueN}]
@@ -71,7 +71,7 @@ If the metric engine is graphite, the resulting metric path will be
 
 ```
 
-If the metrics engin is influxdb, tags will be added to the tags key o the required json strucutre
+If the metrics engine is influxdb, tags will be added to the tags key of the required json structure
 
 ```
 data = [
@@ -92,7 +92,7 @@ data = [
 ]
 ```
 
-Environment is a mandatory parameter and treated internaly as a tag
+Environment is a mandatory parameter and treated internally as a tag
 
 ### Usage example
 The settings file should contain the appropriate configuration. An example with the default settings is shown below.
@@ -109,13 +109,13 @@ metrics_environment = production
 
 ```
 
-Functions should be called as celery tasks althoug it is possible to call functions directly.
+Functions should be called as celery tasks although it is possible to call functions directly.
 
 ```
 from datetime import datetime
 from python_metrics_client.tasks import send_metric
 
-# When acling a task, timestamp must be a datetime string in isoformat. If it is note provided, utcnow will be used as default
+# When acling a task, timestamp must be a datetime string in isoformat. If it is not provided, utcnow will be used as default
 timestamp = datetime.utcnow()
 
 tags = [{'product': 'consignado'}]
@@ -145,7 +145,7 @@ def loan_rate(loan):
 
 ```
 
-The metric itself can be renamed in the __metric__ argument. If no metric name is provided, it will be set to 'duration' byt default. Tags are optional but useful for metric data grouping measurements from different functions.
+The metric itself can be renamed in the __metric__ argument. If no metric name is provided, it will be set to 'duration' by default. Tags are optional but useful for metric data grouping measurements from different functions.
 
 
 
