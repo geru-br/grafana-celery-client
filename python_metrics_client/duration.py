@@ -4,10 +4,10 @@ from datetime import datetime
 from celery import shared_task
 import functools
 
-import logging
+from celery.utils.log import get_task_logger
 from python_metrics_client.metrics_client import send_metric as actual_send_metric
 
-logger = logging.getLogger(__name__)
+logger = get_task_logger(__name__)
 
 
 @shared_task(bind=True, queue='metrics_client')
@@ -15,7 +15,6 @@ def _send_metric(self, environment, metric, value, tags, timestamp=None, server=
     '''
     This task should only be used by the timeit decorator
     '''
-
     logger.info('Sending metric {}'.format(metric))
     if not server:
         server = self.app.conf.metrics_server
@@ -45,6 +44,7 @@ def timeit(environment=None, process_name=None, metric=None, tags=None, server=N
     def _timeit(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+
             _process_name = process_name
             _tags = tags
             _metric = metric
