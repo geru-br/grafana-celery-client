@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+import logging
 from celery import current_app
-
+logger = logging.getLogger(__name__)
 
 def includeme(settings):
 
@@ -16,4 +17,14 @@ def includeme(settings):
     current_app.conf.metrics_password = settings.registry.settings.get('metrics_client_type', 'root')
     current_app.conf.metrics_environment = settings.registry.settings.get('metrics_environment', 'production')
 
+    logger.info('metrics-client config: server: {}://{}:{}'.format(
+        current_app.conf.metrics_client_protocol,
+        current_app.conf.python_metrics_client_url,
+        current_app.conf.metrics_client_port
+    ))
+
+    logger.info('metrics-client config: client: {} - {}'.format(
+        current_app.conf.metrics_client_type,
+        current_app.conf.metrics_environment
+    ))
     settings.scan()
