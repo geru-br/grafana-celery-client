@@ -42,15 +42,6 @@ def send_data(url, measurement, tags, value, timestamp=None, timeout=None):
 
         tags = ",".join(ntags)
 
-    if isinstance(value, dict):
-
-        ntags_value = []
-
-        for k, v in value.items():
-            ntags_value.append('{}={}'.format(k, v))
-
-        value = ",".join(ntags_value)
-
     if not timestamp:
         timestamp = time.time() * 1000000000
 
