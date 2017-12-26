@@ -40,7 +40,7 @@ def send_metric(self, metric, value, tags, timestamp=None, environment=None, ser
 
 
 @shared_task(bind=True, queue='metrics_client', time_limit=90, soft_time_limit=30)
-def send_product_metric(self, product, metric, value, tags, timestamp=None, environment=None, server=None, port=None):
+def send_product_metric(self, product, metric, value, tags, timestamp=None, fields, environment=None, server=None, port=None):
     if not server:
         server = self.app.conf.metrics_server
 
@@ -55,5 +55,5 @@ def send_product_metric(self, product, metric, value, tags, timestamp=None, envi
     username = self.app.conf.metrics_user
     password = self.app.conf.metrics_user
 
-    actual_send_product_metric(server, port, product, metric, value, tags, timestamp=timestamp,
+    actual_send_product_metric(server, port, product, metric, value, tags, timestamp=timestamp, fields, 
                                username=username, password=password, environment=environment, client_type=client_type)
