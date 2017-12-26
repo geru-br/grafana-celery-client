@@ -9,7 +9,7 @@ from python_metrics_client.graphite import send_metric as send_metric_graphite
 logger = logging.getLogger(__name__)
 
 
-def send_product_metric(server, port, product, metric, value, tags=None, timestamp=None, fields,
+def send_product_metric(server, port, product, metric, value, fields=None, tags=None, timestamp=None,
                         environment=None, client_type='influxdb', username='root', password='root'):
     '''
     Send metric with product concept. Product key will be added as a tag for generic metric
@@ -35,11 +35,11 @@ def send_product_metric(server, port, product, metric, value, tags=None, timesta
         tags = [product_tag]
 
     logger.debug('send_product_metric - timestamp {}'.format(timestamp))
-    send_metric(server, port, metric, value, tags, timestamp=timestamp, fields,
+    send_metric(server, port, metric, value, fields=fields, tags=tags, timestamp=timestamp,
                 client_type=client_type, username=username, password=password, environment=environment)
 
 
-def send_metric(server, port, metric, value, tags=None, timestamp=None, fields, environment=None, client_type='influxdb',
+def send_metric(server, port, metric, value, fields=None, tags=None, timestamp=None, environment=None, client_type='influxdb',
                 username='root', password='root'):
     '''
     Send metric generic metric
@@ -48,6 +48,8 @@ def send_metric(server, port, metric, value, tags=None, timestamp=None, fields, 
     :param environment: current environment (dev, stage, production)
     :param metric: metric name
     :param value: metric value
+    :param field: aditional values for metrics, 
+    :FIELDS SERÁ USADO APENAS NO INFLUX, NÃO NO GRAPHITE
     :param tags: list of tags in the form [{'key1': value1},...,{'keyN': valueN}]
     :param timestamp: datetime with metric time
     :param client_type: Type of metric collection egine (eg. 'graphite' or 'influxdb')
@@ -60,7 +62,6 @@ def send_metric(server, port, metric, value, tags=None, timestamp=None, fields, 
 
     if client_type == 'influxdb':
         logger.debug('send_metric: using influxdb')
-        send_metric_influx(server, username, password, port, environment, metric, value, tags, timestamp, fields)
-    #FIELDS SERÁ USADO APENAS NO INFLUX, NÃO NO GRAPHITE
+        send_metric_influx(server, username, password, port, environment, metric, value, fields=fields, tags=tags, timestamp)
     elif client_type == 'graphite':
         send_metric_graphite(server, port, environment, metric, value, tags, timestamp)

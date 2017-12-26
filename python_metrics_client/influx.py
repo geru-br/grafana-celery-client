@@ -64,7 +64,7 @@ def send_data(url, measurement, tags, value, timestamp=None, timeout=None):
     logger.info('[influx send data] - success response status_code: {}'.format(response.status_code, response.text))
 
 
-def send_metric(server, username, password, port, environment, metric, value, tags=None, timestamp=None, fields=None):
+def send_metric(server, username, password, port, environment, metric, value, fields=None, tags=None, timestamp=None):
     '''
     Send metric to influxdb
     :param server: metric server domain name
@@ -98,11 +98,11 @@ def send_metric(server, username, password, port, environment, metric, value, ta
 
     logger.info('influxdb send metric: tags {}'.format(tags))
 
-    if tags is not None:
+    if tags:
         for tag in tags:
             data[0]['tags'].update(tag)
 
-    if fields is not None:
+    if fields:
         for field in fields:
             data[0]['fields'].update(field)
 
