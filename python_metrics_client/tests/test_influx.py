@@ -36,6 +36,31 @@ class InfluxTest(TestCase):
                                               timeout=30)
 
     @mock.patch('python_metrics_client.influx.requests')
+    def test_fields_dict(self, requests_mock):
+        mocked_response = mock.Mock()
+        requests_mock.post.return_value = mocked_response
+        mocked_response.status_code = 204
+
+        send_data('url', 'measurement', {'fields': 'value'}, 2, 1490223248024070912)
+
+        self.assertEquals(1, requests_mock.post.call_count)
+
+        requests_mock.post.assert_called_with('url', data='measurement,fields=value value=2 1490223248024070912',
+                                              timeout=30)
+
+    @mock.patch('python_metrics_client.influx.requests')
+    def test_fields_string(self, requests_mock):
+        mocked_response = mock.Mock()
+        requests_mock.post.return_value = mocked_response
+        mocked_response.status_code = 204
+
+        send_data('url', 'measurement', 'fields=value', 2, 1490223248024070912)
+
+        self.assertEquals(1, requests_mock.post.call_count)
+        requests_mock.post.assert_called_with('url', data='measurement,fields=value value=2 1490223248024070912',
+                                              timeout=30)
+
+    @mock.patch('python_metrics_client.influx.requests')
     def test_bad_request_500(self, requests_mock):
         mocked_response = mock.Mock()
         requests_mock.post.return_value = mocked_response
