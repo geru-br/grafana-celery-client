@@ -60,7 +60,9 @@ class InfluxTest(TestCase):
         data = [
                     {
                         'fields': {
-                            'value': 10
+                            'value': 10,
+                            'add_field_1': 'a',
+                            'add_field_2': 2
                         },
                         'time': '2017-10-19T18:12:51Z',
                         'tags': {
@@ -71,12 +73,15 @@ class InfluxTest(TestCase):
                     }
                 ]
 
-        send_metric_influx('localhost', 'root', 'root',  8086, 'dev', 'test', 10, tags=[{'product': 'consignado'}], timestamp=timestamp)
+        send_metric_influx(
+            'localhost', 'root', 'root',  8086, 'dev', 'test', 10,
+            fields=[{'add_field_1': 'a'}, {'add_field_2': 2}], tags=[{'product': 'consignado'}], timestamp=timestamp
+        )
 
         influx_write.assert_called_with(data)
 
     @mock.patch.object(InfluxDBClient, 'write_points')
-    def test_send_metric_with_no_tags(self, influx_write):
+    def test_send_metric_with_no_fields_or_tags(self, influx_write):
 
         timestamp = datetime(2017, 10, 19, 18, 12, 51)
         data = [
