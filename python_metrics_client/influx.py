@@ -98,13 +98,11 @@ def send_metric(server, username, password, port, environment, metric, value, fi
 
     logger.info('influxdb send metric: tags {}'.format(tags))
 
-    if tags:
-        for tag in tags:
-            data[0]['tags'].update(tag)
+    for tag in (tags or []):
+        data[0]['tags'].update(tag)
 
-    if fields:
-        for field in fields:
-            data[0]['fields'].update(field)
+    for field in (fields or []):
+        data[0]['fields'].update(field)
 
     logger.info('influxdb send metric: {}'.format(data))
     logger.debug('send_metric info - server: {} port: {} username: {}'.format(server, port, username))

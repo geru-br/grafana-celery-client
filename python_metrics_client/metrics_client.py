@@ -48,8 +48,8 @@ def send_metric(server, port, metric, value, fields=None, tags=None, timestamp=N
     :param environment: current environment (dev, stage, production)
     :param metric: metric name
     :param value: metric value
-    :param field: aditional values for metrics, 
-    :FIELDS SERÁ USADO APENAS NO INFLUX, NÃO NO GRAPHITE
+    :param fields: list of additional fields wanted to influx metrics (ONLY influx, this data will not be taken into account
+                   on graphite!), in the form [{'key1': value1},...,{'keyN': valueN}]
     :param tags: list of tags in the form [{'key1': value1},...,{'keyN': valueN}]
     :param timestamp: datetime with metric time
     :param client_type: Type of metric collection egine (eg. 'graphite' or 'influxdb')
@@ -62,6 +62,6 @@ def send_metric(server, port, metric, value, fields=None, tags=None, timestamp=N
 
     if client_type == 'influxdb':
         logger.debug('send_metric: using influxdb')
-        send_metric_influx(server, username, password, port, environment, metric, value, fields=fields, tags=tags, timestamp)
+        send_metric_influx(server, username, password, port, environment, metric, value, fields, tags, timestamp)
     elif client_type == 'graphite':
         send_metric_graphite(server, port, environment, metric, value, tags, timestamp)
