@@ -23,7 +23,21 @@ def send_data(self, measurement, tags, value, timestamp=None, url=None, timeout=
 
 
 @shared_task(bind=True, queue='metrics_client', time_limit=90, soft_time_limit=30)
-def send_metric(self, metric, value, tags, timestamp=None, environment=None, server=None, port=None):
+def send_metric(self, metric, value, fields=None, tags=None, timestamp=None, environment=None, server=None, port=None):
+    """
+    Send metric task. This will send a metric to time series DB with product tag
+
+    :param self:
+    :param metric: Metric name
+    :param value: Value to be measured
+    :param fields: Additional fileds in the form [{'key1': value1},...,{'keyN': valueN}] (only supported by InfluxDB)
+    :param tags: list of tags in the form [{'key1': value1},...,{'keyN': valueN}]
+    :param timestamp: timestamp in isoformat
+    :param environment: current environment (dev, stage, production)
+    :param server: metric server domain name
+    :param port: metric server port
+    :return:
+    """
 
     if not server:
         server = self.app.conf.metrics_server
@@ -39,12 +53,29 @@ def send_metric(self, metric, value, tags, timestamp=None, environment=None, ser
     username = self.app.conf.metrics_user
     password = self.app.conf.metrics_user
 
-    actual_send_metric(server, port, metric, value, tags, timestamp, environment, client_type, username, password)
+    actual_send_metric(server, port, metric, value, fields=fields, tags=tags, timestamp=timestamp,
+                               username=username, password=password, environment=environment, client_type=client_type)
 
 
 @shared_task(bind=True, queue='metrics_client', time_limit=90, soft_time_limit=30)
 def send_product_metric(self, product, metric, value, fields=None, tags=None,
                         timestamp=None, environment=None, server=None, port=None):
+    """
+    Send metric task. This will send a metric to time series DB
+
+    :param self:
+    :param product: Product name
+    :param metric: Metric name
+    :param value: Value to be measured
+    :param fields: Additional fileds in the form [{'key1': value1},...,{'keyN': valueN}] (only supported by InfluxDB)
+    :param tags: list of tags in the form [{'key1': value1},...,{'keyN': valueN}]
+    :param timestamp: timestamp in isoformat
+    :param environment: current environment (dev, stage, production)
+    :param server: metric server domain name
+    :param port: metric server port
+    :return:
+    """
+
     if not server:
         server = self.app.conf.metrics_server
 
