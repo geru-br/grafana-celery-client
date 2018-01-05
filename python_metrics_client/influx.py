@@ -72,6 +72,7 @@ def send_metric(server, username, password, port, environment, metric, value, fi
     :param environment: current environment (dev, stage, production)
     :param metric: metric name
     :param value: metric value
+    :param fields: Additional fileds in the form [{'key1': value1},...,{'keyN': valueN}] (only supported by InfluxDB)
     :param tags: list of tags in the form [{'key1': value1},...,{'keyN': valueN}]
     :param timestamp: datetime with metric time
     :return:
