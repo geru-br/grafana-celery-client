@@ -55,9 +55,11 @@ def timeit(environment=None, process_name=None, metric=None, tags=None, server=N
             _process_tag = {'process_name': _process_name}
 
             if not _tags:
-                _tags = [_process_tag]
+                _tags = (_process_tag,)
             else:
-                _tags.append(_process_tag)
+                # Using tuple to avoid issues with mututable objects (e.g. lists)
+                # See issue: https://github.com/geru-br/python-metrics-client/issues/9
+                _tags = tuple(tag for tag in _tags) + (_process_tag,)
 
             if not _metric:
                 _metric = 'duration'
@@ -66,7 +68,7 @@ def timeit(environment=None, process_name=None, metric=None, tags=None, server=N
             ret = func(*args, **kwargs)
             duration = timer() - start
             localtime = datetime.utcnow().isoformat()
-            _send_metric.delay(environment, _metric, duration, _tags, localtime, server, port)
+            _send_metric.delay(environment, _metric, duration, list(_tags), localtime, server, port)
             return ret
 
         return wrapper
