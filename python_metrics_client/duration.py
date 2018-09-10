@@ -29,7 +29,7 @@ def _send_metric(self, environment, metric, value, tags, timestamp=None, server=
 
     actual_send_metric(
         server=server, port=port, metric=metric, value=value, tags=tags, timestamp=timestamp,
-        environment=environment,  client_type=client_type
+        environment=environment, client_type=client_type
     )
 
 
