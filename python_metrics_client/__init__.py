@@ -27,4 +27,4 @@ def includeme(settings):
         current_app.conf.metrics_client_type,
         current_app.conf.metrics_environment
     ))
-    settings.scan()
+    settings.scan(ignore='python_metrics_client')
