@@ -1,19 +1,5 @@
 version: 2
 jobs:
-  test:
-    docker:
-      - image: python:3.6
-    working_directory: ~/app
-    steps:
-      - checkout
-      - run:
-          name: install dependencies
-          command: |
-            pip install -r requirements_tests.txt
-      - run:
-          name: running tests
-          command: |
-            nosetests python_metrics_client/tests
   deploy:
     docker:
       - image: python:3.6
@@ -31,10 +17,7 @@ workflows:
   version: 2
   test-and-deploy:
     jobs:
-      - test
       - deploy:
-          requires:
-            - test
           filters:
             branches:
               only:
