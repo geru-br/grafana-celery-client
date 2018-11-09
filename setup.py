@@ -2,10 +2,6 @@ import os
 
 from setuptools import setup, find_packages
 
-here = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(here, 'VERSION.txt')) as f:
-    VERSION = f.read().strip('\r\n')
-
 requires = [r.strip('\r\n')
             for r in open('requirements.txt').readlines()]
 
@@ -18,7 +14,7 @@ if os.environ.get('STANDALONE'):
 
 
 setup(name='python_metrics_client',
-      version=VERSION,
+      version='0.9.9',
       description='python metrics client',
       classifiers=[
           "Programming Language :: Python",
