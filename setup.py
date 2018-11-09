@@ -2,8 +2,10 @@ import os
 
 from setuptools import setup, find_packages
 
-requires = [r.strip('\r\n')
-            for r in open('requirements.txt').readlines()]
+requires = [
+    'requests>=2.3.0',
+    'influxdb==4.1.1',
+]
 
 entry_points = None
 if os.environ.get('STANDALONE'):
@@ -14,7 +16,7 @@ if os.environ.get('STANDALONE'):
 
 
 setup(name='python_metrics_client',
-      version='0.9.10',
+      version='0.9.11',
       description='python metrics client',
       classifiers=[
           "Programming Language :: Python",
