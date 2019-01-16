@@ -51,7 +51,7 @@ def send_metric(self, metric, value, fields=None, tags=None, timestamp=None, env
         environment = self.app.conf.metrics_environment
 
     username = self.app.conf.metrics_user
-    password = self.app.conf.metrics_user
+    password = self.app.conf.metrics_password
 
     actual_send_metric(server, port, metric, value, fields=fields, tags=tags, timestamp=timestamp,
                                username=username, password=password, environment=environment, client_type=client_type)
@@ -88,7 +88,7 @@ def send_product_metric(self, product, metric, value, fields=None, tags=None,
         environment = self.app.conf.metrics_environment
 
     username = self.app.conf.metrics_user
-    password = self.app.conf.metrics_user
+    password = self.app.conf.metrics_password
 
     actual_send_product_metric(server, port, product, metric, value, fields=fields, tags=tags, timestamp=timestamp,
                                username=username, password=password, environment=environment, client_type=client_type)
