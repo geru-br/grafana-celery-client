@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import logging
+
 from celery import current_app
+
+
 logger = logging.getLogger(__name__)
 
 def includeme(settings):
