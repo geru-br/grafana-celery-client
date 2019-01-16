@@ -13,8 +13,8 @@ def includeme(settings):
     current_app.conf.metrics_client_port = settings.registry.settings.get('metrics_client_port', 8086)
     current_app.conf.metrics_client_timeout = settings.registry.settings.get('metrics_client_timeout', 30)
     current_app.conf.metrics_client_type = settings.registry.settings.get('metrics_client_type', 'influxdb')
-    current_app.conf.metrics_user = settings.registry.settings.get('metrics_client_type', 'root')
-    current_app.conf.metrics_password = settings.registry.settings.get('metrics_client_type', 'root')
+    current_app.conf.metrics_user = settings.registry.settings.get('metrics_user', 'root')
+    current_app.conf.metrics_password = settings.registry.settings.get('metrics_password', 'root')
     current_app.conf.metrics_environment = settings.registry.settings.get('metrics_environment', 'production')
 
     logger.info('metrics-client config: server: {}://{}:{}'.format(
