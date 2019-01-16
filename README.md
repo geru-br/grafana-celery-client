@@ -1,4 +1,4 @@
-# Python metics client
+# Python Metrics Client
 
 This lib should be used by pyramid. It can be used standalone. :-)
 
@@ -25,7 +25,7 @@ Add to project requirements.txt
 Add to project __init__.py or main() method
 
 ```python
-	
+
     ...
     settings['python_metrics_client.url'] = get_from_env_or_settings(
         'python_metrics_client.url', settings,
@@ -54,7 +54,7 @@ send_data.delay(
 
 ## Multiple metric engine functions
 
-A new set of functions were added to support multiple types of metrics. By default, it uses InfluxDB, but graphite is also supported. 
+A new set of functions were added to support multiple types of metrics. By default, it uses InfluxDB, but graphite is also supported.
 
 ### Interoperability
 
@@ -121,10 +121,10 @@ timestamp = datetime.utcnow()
 tags = [{'product': 'consignado'}]
 
 send_metric.delay( 'localhost',
-                   8086, 
-                   approved', 
-                   1, 
-                   tags=tags, 
+                   8086,
+                   approved',
+                   1,
+                   tags=tags,
                    timestamp=timestamp.isoformat(),
                    environment='production')
 ```
