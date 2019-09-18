@@ -12,10 +12,15 @@ logger = logging.getLogger(__name__)
 
 
 def _convert_timestamp(timestamp):
-    '''
-    :param timestamp: datetime with the timestamp date and time or str in the appropriate format
-    :return: string with the corresponding date and time
-    '''
+    """Convert a given timestamp into the proper format accepted by influxdb client.
+
+    Args:
+        timestamp (Union[datetime,str,unicode,int]): a timestamp can be a
+            datetime instance, a str or unicode value, or an integer.
+    Returns:
+        str: properly formatted timestamp
+
+    """
 
     if not timestamp:
         timestamp = datetime.utcnow()
@@ -30,7 +35,19 @@ def _convert_timestamp(timestamp):
 
 
 def send_data(url, measurement, tags, value, timestamp=None, timeout=None):
-    """
+    """Send data point, using line protocol, to influxdb host.
+
+    Args:
+        url (str): influxdb address.
+        measurement (str): metric name in influxdb.
+        tags (dict): tags associated with this measure.
+        value (Any): value measured for this metric.
+        timestamp (Optional[Union[datetime,str,unicode,int]]): when this measure was taken.
+        timeout (Optional[Union[int, float]): request timeout.
+
+    Returns:
+        bool: indicating if the line was sent to influxdb
+
     """
     if isinstance(tags, dict):
 
@@ -64,19 +81,27 @@ def send_data(url, measurement, tags, value, timestamp=None, timeout=None):
 
 
 def send_metric(server, username, password, port, environment, metric, value, fields=None, tags=None, timestamp=None):
-    '''
-    Send metric to influxdb
-    :param server: metric server domain name
-    :param port: metric server port
-    :param environment: current environment (dev, stage, production)
-    :param metric: metric name
-    :param value: metric value
-    :param fields: Additional fileds in the form [{'key1': value1},...,{'keyN': valueN}] (only supported by InfluxDB)
-    :param tags: list of tags in the form [{'key1': value1},...,{'keyN': valueN}]
-    :param timestamp: datetime with metric time
-    :return:
-    '''
+    """Send metric to influxdb.
 
+    Args:
+        server (str): metric server domain name
+        username (str): username to access metric server
+        password (str): password to access metric server
+        port (int): metric server port
+        environment (str): current environment (dev, stage, production)
+        metric (str): measurement in metric server
+        value (Union[int, float]): metric value
+        fields (Optional[list]): additional fields in the form:
+            [{'key1': value1},...,{'keyN': valueN}] (only supported by InfluxDB)
+        tags (Optional[list]): list of tags in the form:
+            [{'key1': value1},...,{'keyN': valueN}]
+        timestamp (Optional[Union[datetime,str,unicode,int]]): time when this
+            metric was collected.
+
+    Returns:
+        bool: indicating if the point was written
+
+    """
     # In python3, celery converts datetime to a string.
 
     logger.info('influxdb send metric')
@@ -108,4 +133,4 @@ def send_metric(server, username, password, port, environment, metric, value, fi
     logger.debug('send_metric info - server: {} port: {} username: {}'.format(server, port, username))
 
     client = InfluxDBClient(server, int(port), username, password, 'metrics')
-    client.write_points(data)
+    return client.write_points(data)
