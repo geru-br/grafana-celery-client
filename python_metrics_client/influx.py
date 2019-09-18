@@ -20,11 +20,9 @@ def _convert_timestamp(timestamp):
     if not timestamp:
         timestamp = datetime.utcnow()
 
-    if type(timestamp) is datetime:
-        return timestamp.strftime('%Y-%m-%dT%H:%M:%SZ')
-    elif type(timestamp) is str:
-        return timestamp
-    elif type(timestamp) is unicode:
+    if isinstance(timestamp, datetime):
+        return timestamp.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+    elif isinstance(timestamp, (str, unicode)):
         return timestamp
     else:
         logger.info('{} is not a valid timestamp type'.format(type(timestamp)))
