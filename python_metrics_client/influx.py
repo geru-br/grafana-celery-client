@@ -8,6 +8,8 @@ from influxdb import InfluxDBClient
 
 from python_metrics_client.exceptions import BadRequest
 
+DEFAULT_TIMEOUT_IN_SECONDS = 30
+
 logger = logging.getLogger(__name__)
 
 
@@ -50,12 +52,9 @@ def send_data(url, measurement, tags, value, timestamp=None, timeout=None):
 
     """
     if isinstance(tags, dict):
-
         ntags = []
-
         for k, v in tags.items():
             ntags.append('{}={}'.format(k, v))
-
         tags = ",".join(ntags)
 
     if not timestamp:
@@ -63,21 +62,23 @@ def send_data(url, measurement, tags, value, timestamp=None, timeout=None):
 
     if timestamp < time.time() * 1000000:
         # warn probably not send timestamp in microseconds
-        logger.warn('send_data: problably not send timestamp in microseconds [{}]'.format(timestamp))
+        logger.warn('[send_data] problably not send timestamp in microseconds [{}]'.format(timestamp))
 
     if not timeout:
-        timeout = 30
+        timeout = DEFAULT_TIMEOUT_IN_SECONDS
 
     data = "{},{} value={} {}".format(measurement, tags, value, int(timestamp))
 
-    logger.info("[influx send data] url: {} data: {}".format(url, data))
+    logger.info("[send_data] url: {} data: {}".format(url, data))
     response = requests.post(url, data=data, timeout=timeout)
 
     if response.status_code != 204:
-        logger.error('bad request: {} {}'.format(response.status_code, response.text))
+        logger.error('[send_data] bad request: {} {}'.format(response.status_code, response.text))
         raise BadRequest('Error {} - {}'.format(response.status_code, response.text))
 
-    logger.info('[influx send data] - success response status_code: {}'.format(response.status_code, response.text))
+    logger.info('[send_data] success response status_code: {}'.format(response.status_code, response.text))
+
+    return True
 
 
 def send_metric(server, username, password, port, environment, metric, value, fields=None, tags=None, timestamp=None):
@@ -108,18 +109,16 @@ def send_metric(server, username, password, port, environment, metric, value, fi
 
     str_timestamp = _convert_timestamp(timestamp)
 
-    data = [
-                {
-                    'measurement': metric,
-                    'time': str_timestamp,
-                    'fields': {
-                        'value': value
-                    },
-                    'tags': {
-                        'environment': environment
-                    }
-                }
-           ]
+    data = [{
+        'measurement': metric,
+        'time': str_timestamp,
+        'fields': {
+            'value': value
+        },
+        'tags': {
+            'environment': environment
+        }
+    }]
 
     logger.info('influxdb send metric: tags {}'.format(tags))
 
