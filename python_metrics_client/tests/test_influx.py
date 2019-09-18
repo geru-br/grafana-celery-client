@@ -64,7 +64,7 @@ class InfluxTest(TestCase):
                             'add_field_1': 'a',
                             'add_field_2': 2
                         },
-                        'time': '2017-10-19T18:12:51Z',
+                        'time': '2017-10-19T18:12:51.000000Z',
                         'tags': {
                             'environment': 'dev',
                             'product': 'consignado'
@@ -89,7 +89,7 @@ class InfluxTest(TestCase):
                         'fields': {
                             'value': 10
                         },
-                        'time': '2017-10-19T18:12:51Z',
+                        'time': '2017-10-19T18:12:51.000000Z',
                         'tags': {
                             'environment': 'dev'
                         },
