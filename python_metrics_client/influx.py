@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import logging
 import time
-import requests
-
-from influxdb import InfluxDBClient
 from datetime import datetime
+
+import requests
+from influxdb import InfluxDBClient
+
 from python_metrics_client.exceptions import BadRequest
 
 logger = logging.getLogger(__name__)
