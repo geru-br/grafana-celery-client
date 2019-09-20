@@ -1,0 +1,14 @@
+---
+version: '3.7'
+services:
+  client:
+    image: 'geru/metrics-client:dev'
+    build:
+      context: .
+    volumes:
+      - '.:/opt/client'
+      - 'tox_data:/opt/client/.tox'
+    working_dir: /opt/client
+    command: sleep infinity
+volumes:
+  tox_data: {}
