@@ -1,0 +1,4 @@
+.git
+.tox
+__pycache__
+*.pyc
