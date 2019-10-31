@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import mock
+from unittest import mock
 from click.testing import CliRunner
 from python_metrics_client.tests.base import TestCase
 from python_metrics_client.scripts.grafana import influx_send_data, tasks_send_data
@@ -15,11 +15,9 @@ class ScriptsTest(TestCase):
         mocked_response.status_code = 204
 
         runner = CliRunner()
-
         response = runner.invoke(influx_send_data, ['url', 'measurement', '{"tag":"value"}', '2', '-t 1490223248024070912'])
-
-        self.assertEquals(response.exit_code, 0)
-        self.assertEquals(1, requests_mock.post.call_count)
+        self.assertEqual(response.exit_code, 0)
+        self.assertEqual(1, requests_mock.post.call_count)
         requests_mock.post.assert_called_with('url', data='measurement,tag=value value=2 1490223248024070912', timeout=30)
 
     @mock.patch('python_metrics_client.tasks.send_data')
@@ -28,6 +26,6 @@ class ScriptsTest(TestCase):
         runner = CliRunner()
         response = runner.invoke(tasks_send_data, ['measurement', '{"tag":"value"}', '2', '-t 1490223248024070912'])
 
-        self.assertEquals(response.exit_code, 0)
-        self.assertEquals(1, send_data_mock.delay.call_count)
+        self.assertEqual(response.exit_code, 0)
+        self.assertEqual(1, send_data_mock.delay.call_count)
         send_data_mock.delay.assert_called_with(u'measurement', {u'tag': u'value'}, u'2')

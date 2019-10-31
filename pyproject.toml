@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "python-metrics-client"
+version = "0.9.14"
+description = ""
+authors = ["Developers <dev@geru.com.br>"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+influxdb = "^5.2"
+requests = "^2.22"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

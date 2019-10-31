@@ -1,4 +1,5 @@
-import mock
+from unittest import mock
+
 from python_metrics_client.tests.base import TestCase
 from datetime import datetime
 from python_metrics_client.metrics_client import send_metric, send_product_metric

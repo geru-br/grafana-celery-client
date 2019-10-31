@@ -20,13 +20,12 @@ def influx():
 @click.argument('tags')
 @click.argument('value')
 @click.option('-t', '--timestamp', default=None)
-def influx_send_data(url, measurement, tags, value, timestamp=None):
+def influx_send_data(url, measurement, tags, value, timestamp="0"):
 
     from python_metrics_client.influx import send_data as sd
-
     tags = json.loads(tags)
 
-    sd(url, measurement, tags, value, timestamp=timestamp)
+    sd(url, measurement, tags, value, timestamp=int(timestamp))
 
 
 @grafana.group()

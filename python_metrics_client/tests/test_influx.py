@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import mock
+from unittest import mock
+
 from python_metrics_client.tests.base import TestCase
 from influxdb import InfluxDBClient
 from datetime import datetime
@@ -18,7 +19,7 @@ class InfluxTest(TestCase):
 
         send_data('url', 'measurement', {'tag': 'value'}, 2, 1490223248024070912)
 
-        self.assertEquals(1, requests_mock.post.call_count)
+        self.assertEqual(1, requests_mock.post.call_count)
 
         requests_mock.post.assert_called_with('url', data='measurement,tag=value value=2 1490223248024070912',
                                               timeout=30)
@@ -31,7 +32,7 @@ class InfluxTest(TestCase):
 
         send_data('url', 'measurement', 'tag=value', 2, 1490223248024070912)
 
-        self.assertEquals(1, requests_mock.post.call_count)
+        self.assertEqual(1, requests_mock.post.call_count)
         requests_mock.post.assert_called_with('url', data='measurement,tag=value value=2 1490223248024070912',
                                               timeout=30)
 
