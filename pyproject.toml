@@ -8,6 +8,8 @@ authors = ["Developers <dev@geru.com.br>"]
 python = "^3.6"
 influxdb = "^5.2"
 requests = "^2.22"
+click = "^7.0"
+celery = ">4.0.3"
 
 [tool.poetry.dev-dependencies]
 
