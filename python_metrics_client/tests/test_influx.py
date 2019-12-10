@@ -100,3 +100,42 @@ class InfluxTest(TestCase):
         send_metric_influx('localhost', 'root', 'root', 8086, 'dev', 'test', 10, timestamp=timestamp)
 
         influx_write.assert_called_with(data)
+
+    @mock.patch.dict('python_metrics_client.influx.os.environ', {})
+    @mock.patch('python_metrics_client.influx.InfluxDBClient')
+    def test_send_metric_with_no_envvar(self, client_mock):
+        timestamp = datetime(2017, 10, 19, 18, 12, 51)
+        fields = [
+            {'value': 10},
+            {'add_field_1': 'a'},
+            {'add_field_2': 2},
+        ]
+        tags = [
+            {'environment': 'dev'},
+            {'product': 'consignado'},
+        ]
+
+        send_metric_influx('localhost', 'root', 'root', 8086, 'dev', 'test', value=1, fields=fields, tags=tags, timestamp=timestamp)
+
+        client_mock.assert_called_with('localhost', 8086, 'root', 'root', 'metrics')
+
+    @mock.patch.dict('python_metrics_client.influx.os.environ', {'INFLUX_DATABASE': 'test-metrics'})
+    @mock.patch('python_metrics_client.influx.InfluxDBClient')
+    def test_send_metric_with_envvar(self, client_mock):
+        timestamp = datetime(2017, 10, 19, 18, 12, 51)
+
+        fields = [
+            {'value': 10},
+            {'add_field_1': 'a'},
+            {'add_field_2': 2},
+        ]
+
+        tags = [
+            {'environment': 'dev'},
+            {'product': 'consignado'},
+        ]
+
+        send_metric_influx('localhost', 'root', 'root', 8086, 'dev', 'test', value=1, fields=fields, tags=tags,
+                           timestamp=timestamp)
+
+        client_mock.assert_called_with('localhost', 8086, 'root', 'root', 'test-metrics')
