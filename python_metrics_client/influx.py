@@ -45,7 +45,7 @@ def send_data(url, measurement, tags, value, timestamp=None, timeout=None):
     if not timestamp:
         timestamp = time.time() * 1000000000
 
-    if timestamp < time.time() * 1000000:
+    if float(timestamp) < time.time() * 1000000:
         # warn probably not send timestamp in microseconds
         logger.warn('send_data: problably not send timestamp in microseconds [{}]'.format(timestamp))
 
