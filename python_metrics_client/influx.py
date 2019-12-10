@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+import os
 import time
 import requests
 
@@ -108,5 +109,5 @@ def send_metric(server, username, password, port, environment, metric, value, fi
     logger.info('influxdb send metric: {}'.format(data))
     logger.debug('send_metric info - server: {} port: {} username: {}'.format(server, port, username))
 
-    client = InfluxDBClient(server, int(port), username, password, 'metrics')
+    client = InfluxDBClient(server, int(port), username, password, os.environ.get('INFLUX_DATABASE', 'metrics'))
     client.write_points(data)
