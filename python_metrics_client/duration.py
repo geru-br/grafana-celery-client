@@ -15,6 +15,10 @@ def _send_metric(self, environment, metric, value, tags, timestamp=None, server=
     '''
     This task should only be used by the timeit decorator
     '''
+    if not self.app.conf.metrics_enabled:
+        logger.info('_send_metric: got config metrics_enabled == False, skipping.')
+        return
+
     logger.info('Sending metric {}'.format(metric))
     if not server:
         server = self.app.conf.metrics_server
