@@ -12,6 +12,8 @@ def includeme(config):
     current_app.conf.python_metrics_client_url = config.registry.settings.get('python_metrics_client.url')
     current_app.conf.python_metrics_client_timeout = config.registry.settings.get('python_metrics_client.timeout', 30)
 
+    current_app.conf.metrics_enabled = config.registry.settings.get('metrics_enabled', True)
+
     current_app.conf.metrics_server = config.registry.settings.get('metrics_server', 'influxdb.tick-prod.geroo.com.br')
     current_app.conf.metrics_client_protocol = config.registry.settings.get('metrics_client_protocol', 'https')
     current_app.conf.metrics_client_port = config.registry.settings.get('metrics_client_port', 8086)
