@@ -13,7 +13,7 @@ logger = get_task_logger(__name__)
 @shared_task(bind=True, queue='metrics_client', time_limit=90, soft_time_limit=30)
 def send_data(self, measurement, tags, value, timestamp=None, url=None, timeout=None):
     if not self.app.conf.metrics_enabled:
-        logger.info('send_data: got config metrics_enabled == False, skipping.')
+        logger.debug('send_data: got config metrics_enabled == False, skipping.')
         return
 
     if not url:
@@ -42,7 +42,7 @@ def send_metric(self, metric, value, fields=None, tags=None, timestamp=None, env
     :return:
     """
     if not self.app.conf.metrics_enabled:
-        logger.info('send_metric: got config metrics_enabled == False, skipping.')
+        logger.debug('send_metric: got config metrics_enabled == False, skipping.')
         return
 
     if not server:
@@ -82,7 +82,7 @@ def send_product_metric(self, product, metric, value, fields=None, tags=None,
     :return:
     """
     if not self.app.conf.metrics_enabled:
-        logger.info('send_product_metric: got config metrics_enabled == False, skipping.')
+        logger.debug('send_product_metric: got config metrics_enabled == False, skipping.')
         return
 
     if not server:

@@ -23,13 +23,13 @@ def includeme(config):
     current_app.conf.metrics_password = config.registry.settings.get('metrics_password', 'root')
     current_app.conf.metrics_environment = config.registry.settings.get('metrics_environment', 'production')
 
-    logger.info('metrics-client config: server: {}://{}:{}'.format(
+    logger.debug('metrics-client config: server: {}://{}:{}'.format(
         current_app.conf.metrics_client_protocol,
         current_app.conf.python_metrics_client_url,
         current_app.conf.metrics_client_port
     ))
 
-    logger.info('metrics-client config: client: {} - {}'.format(
+    logger.debug('metrics-client config: client: {} - {}'.format(
         current_app.conf.metrics_client_type,
         current_app.conf.metrics_environment
     ))

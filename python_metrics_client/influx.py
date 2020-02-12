@@ -55,14 +55,14 @@ def send_data(url, measurement, tags, value, timestamp=None, timeout=None):
 
     data = "{},{} value={} {}".format(measurement, tags, value, int(timestamp))
 
-    logger.info("[influx send data] url: {} data: {}".format(url, data))
+    logger.debug("[influx send data] url: {} data: {}".format(url, data))
     response = requests.post(url, data=data, timeout=timeout)
 
     if response.status_code != 204:
         logger.error('bad request: {} {}'.format(response.status_code, response.text))
         raise BadRequest('Error {} - {}'.format(response.status_code, response.text))
 
-    logger.info('[influx send data] - success response status_code: {}'.format(response.status_code, response.text))
+    logger.debug('[influx send data] - success response status_code: {}'.format(response.status_code, response.text))
 
 
 def send_metric(server, username, password, port, environment, metric, value, fields=None, tags=None, timestamp=None):
@@ -81,7 +81,7 @@ def send_metric(server, username, password, port, environment, metric, value, fi
 
     # In python3, celery converts datetime to a string.
 
-    logger.info('influxdb send metric')
+    logger.debug('influxdb send metric')
 
     str_timestamp = _convert_timestamp(timestamp)
 
@@ -98,7 +98,7 @@ def send_metric(server, username, password, port, environment, metric, value, fi
                 }
            ]
 
-    logger.info('influxdb send metric: tags {}'.format(tags))
+    logger.debug('influxdb send metric: tags {}'.format(tags))
 
     for tag in (tags or []):
         data[0]['tags'].update(tag)
@@ -106,7 +106,7 @@ def send_metric(server, username, password, port, environment, metric, value, fi
     for field in (fields or []):
         data[0]['fields'].update(field)
 
-    logger.info('influxdb send metric: {}'.format(data))
+    logger.debug('influxdb send metric: data {}, tags {}'.format(data, tags))
     logger.debug('send_metric info - server: {} port: {} username: {}'.format(server, port, username))
 
     client = InfluxDBClient(server, int(port), username, password, os.environ.get('INFLUX_DATABASE', 'metrics'))
