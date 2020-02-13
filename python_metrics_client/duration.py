@@ -19,7 +19,6 @@ def _send_metric(self, environment, metric, value, tags, timestamp=None, server=
         logger.debug('_send_metric: got config metrics_enabled == False, skipping.')
         return
 
-    logger.debug('Sending metric {}'.format(metric))
     if not server:
         server = self.app.conf.metrics_server
 

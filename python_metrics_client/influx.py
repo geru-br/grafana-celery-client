@@ -27,7 +27,7 @@ def _convert_timestamp(timestamp):
     elif type(timestamp) is unicode:
         return timestamp
     else:
-        logger.info('{} is not a valid timestamp type'.format(type(timestamp)))
+        logger.info('%s is not a valid timestamp type', type(timestamp))
         raise TypeError
 
 
@@ -48,21 +48,21 @@ def send_data(url, measurement, tags, value, timestamp=None, timeout=None):
 
     if float(timestamp) < time.time() * 1000000:
         # warn probably not send timestamp in microseconds
-        logger.warn('send_data: problably not send timestamp in microseconds [{}]'.format(timestamp))
+        logger.warn('send_data: problably not send timestamp in microseconds [%s]', timestamp)
 
     if not timeout:
         timeout = 30
 
     data = "{},{} value={} {}".format(measurement, tags, value, int(timestamp))
 
-    logger.debug("[influx send data] url: {} data: {}".format(url, data))
+    logger.debug("[influx send data] url: %s data: %s", url, data)
     response = requests.post(url, data=data, timeout=timeout)
 
     if response.status_code != 204:
-        logger.error('bad request: {} {}'.format(response.status_code, response.text))
+        logger.error('bad request: %s %s', response.status_code, response.text)
         raise BadRequest('Error {} - {}'.format(response.status_code, response.text))
 
-    logger.debug('[influx send data] - success response status_code: {}'.format(response.status_code, response.text))
+    logger.debug('[influx send data] - success response status_code: %s', response.status_code, response.text)
 
 
 def send_metric(server, username, password, port, environment, metric, value, fields=None, tags=None, timestamp=None):
@@ -81,8 +81,6 @@ def send_metric(server, username, password, port, environment, metric, value, fi
 
     # In python3, celery converts datetime to a string.
 
-    logger.debug('influxdb send metric')
-
     str_timestamp = _convert_timestamp(timestamp)
 
     data = [
@@ -98,16 +96,13 @@ def send_metric(server, username, password, port, environment, metric, value, fi
                 }
            ]
 
-    logger.debug('influxdb send metric: tags {}'.format(tags))
-
     for tag in (tags or []):
         data[0]['tags'].update(tag)
 
     for field in (fields or []):
         data[0]['fields'].update(field)
 
-    logger.debug('influxdb send metric: data {}, tags {}'.format(data, tags))
-    logger.debug('send_metric info - server: {} port: {} username: {}'.format(server, port, username))
+    logger.debug('influxdb send metric: data %s, tags %s', data, tags)
 
     client = InfluxDBClient(server, int(port), username, password, os.environ.get('INFLUX_DATABASE', 'metrics'))
     client.write_points(data)
