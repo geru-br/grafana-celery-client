@@ -93,3 +93,6 @@ ENV/
 
 # Egg info
 grafana_celery_client.egg-info
+
+# Jetbrains
+.idea
