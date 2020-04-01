@@ -108,6 +108,11 @@ metrics_password = root
 metrics_environment = production
 
 ```
+##### Obs:
+You can define the Influx Database name through environment variable. Export `INFLUX_DATABASE` in your environment,
+after that all the metrics will be directed to that DB (make sure the db is already created).
+
+---
 
 Functions should be called as celery tasks although it is possible to call functions directly.
 
