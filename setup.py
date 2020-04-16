@@ -17,7 +17,7 @@ if os.environ.get('STANDALONE'):
 
 setup(
     name='python_metrics_client',
-    version='0.11.3',
+    version='0.11.4',
     description='python metrics client',
     classifiers=[
         "Programming Language :: Python",
