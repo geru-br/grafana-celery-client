@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from timeit import default_timer as timer
-from datetime import datetime
-from celery import shared_task
 import functools
+from datetime import datetime
+from timeit import default_timer as timer
 
+from celery import shared_task
 from celery.utils.log import get_task_logger
+
 from python_metrics_client.metrics_client import send_metric as actual_send_metric
 
 logger = get_task_logger(__name__)
