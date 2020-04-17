@@ -34,7 +34,7 @@ def send_product_metric(server, port, product, metric, value, fields=None, tags=
     else:
         tags = [product_tag]
 
-    logger.debug('send_product_metric - timestamp {}'.format(timestamp))
+    logger.debug('send_product_metric - timestamp %s', timestamp)
     send_metric(server, port, metric, value, fields=fields, tags=tags, timestamp=timestamp,
                 client_type=client_type, username=username, password=password, environment=environment)
 
