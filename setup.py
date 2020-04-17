@@ -4,8 +4,24 @@ from setuptools import setup, find_packages
 
 requires = [
     'requests>=2.3.0',
-    'influxdb==4.1.1',
+    'celery==4.0.2',
+    'click==6.7',
+    'influxdb==5.2.3',
 ]
+
+extras_require = {
+    'tests': [
+        'coverage==4.4.1',
+        'freezegun==0.3.12',
+        'mock==2.0.0',
+        'nose==1.3.7',
+        'tox==3.14.6',
+    ],
+}
+
+dev_ = ['ipdb==0.8', 'ipython==5.1.0']
+
+extras_require['dev'] = extras_require['tests'] + dev_
 
 entry_points = None
 if os.environ.get('STANDALONE'):
@@ -34,5 +50,6 @@ setup(
     zip_safe=False,
     test_suite='python_metrics_client',
     install_requires=requires,
+    extras_require=extras_require,
     entry_points=entry_points,
   )

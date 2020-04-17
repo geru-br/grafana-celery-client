@@ -1,6 +1,16 @@
 version: 2
 jobs:
-  deploy:
+  tests:
+    docker:
+      - image: python:3.6
+    steps:
+      - checkout
+      - run:
+          name: Tests
+          command: |
+            pip install -e .[tests]
+            tox
+  release:
     docker:
       - image: python:3.6
     working_directory: ~/app
@@ -17,7 +27,10 @@ workflows:
   version: 2
   test-and-deploy:
     jobs:
-      - deploy:
+      - tests
+      - release:
+          requires:
+            - tests
           filters:
             branches:
               only:
