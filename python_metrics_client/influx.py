@@ -2,6 +2,7 @@
 import logging
 import os
 import time
+import six
 from datetime import datetime
 
 import requests
@@ -30,7 +31,7 @@ def _convert_timestamp(timestamp):
 
     if isinstance(timestamp, datetime):
         return timestamp.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
-    elif isinstance(timestamp, (str, unicode)):
+    elif isinstance(timestamp, six.string_types):
         return timestamp
     else:
         logger.info('%s is not a valid timestamp type', type(timestamp))

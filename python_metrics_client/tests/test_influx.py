@@ -54,9 +54,65 @@ class InfluxTest(TestCase):
         self.assertRaises(BadRequest, send_data, 'url', 'measurement', 'tag=value', 2, 1490223248024070912)
 
     @mock.patch.object(InfluxDBClient, 'write_points')
-    def test_send_metric_with_time(self, influx_write):
+    def test_send_metric_with_time_as_datetime(self, influx_write):
 
         timestamp = datetime(2017, 10, 19, 18, 12, 51)
+        data = [
+                    {
+                        'fields': {
+                            'value': 10,
+                            'add_field_1': 'a',
+                            'add_field_2': 2
+                        },
+                        'time': '2017-10-19T18:12:51.000000Z',
+                        'tags': {
+                            'environment': 'dev',
+                            'product': 'consignado'
+                        },
+                        'measurement': 'test'
+                    }
+                ]
+
+        send_metric_influx(
+            'localhost', 'root', 'root',  8086, 'dev', 'test', 10,
+            fields=[{'add_field_1': 'a'}, {'add_field_2': 2}], tags=[{'product': 'consignado'}], timestamp=timestamp
+        )
+
+        influx_write.assert_called_with(data)
+
+    @mock.patch.object(InfluxDBClient, 'write_points')
+    def test_send_metric_with_time_as_string(self, influx_write):
+
+        timestamp = datetime(2017, 10, 19, 18, 12, 51).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+        timestamp = '{}'.format(timestamp)
+        data = [
+                    {
+                        'fields': {
+                            'value': 10,
+                            'add_field_1': 'a',
+                            'add_field_2': 2
+                        },
+                        'time': '2017-10-19T18:12:51.000000Z',
+                        'tags': {
+                            'environment': 'dev',
+                            'product': 'consignado'
+                        },
+                        'measurement': 'test'
+                    }
+                ]
+
+        send_metric_influx(
+            'localhost', 'root', 'root',  8086, 'dev', 'test', 10,
+            fields=[{'add_field_1': 'a'}, {'add_field_2': 2}], tags=[{'product': 'consignado'}], timestamp=timestamp
+        )
+
+        influx_write.assert_called_with(data)
+
+    @mock.patch.object(InfluxDBClient, 'write_points')
+    def test_send_metric_with_time_as_unicode(self, influx_write):
+
+        timestamp = datetime(2017, 10, 19, 18, 12, 51).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+        timestamp = u'{}'.format(timestamp)
         data = [
                     {
                         'fields': {
