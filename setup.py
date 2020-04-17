@@ -15,13 +15,13 @@ extras_require = {
         'mock==2.0.0',
         'nose==1.3.7',
         'tox==3.14.6',
+        'click<8.0,>=6.0',
     ],
 }
 
 dev_ = [
     'ipdb==0.8',
     'ipython==5.1.0',
-    'click<8.0,>=6.0',
 ]
 
 extras_require['dev'] = extras_require['tests'] + dev_
