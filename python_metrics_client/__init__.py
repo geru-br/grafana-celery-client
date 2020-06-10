@@ -34,4 +34,4 @@ def includeme(config):
         current_app.conf.metrics_environment
     )
 
-    config.scan(ignore=['.tests'])
+    config.scan(ignore=['.tests', '.scripts'])
