@@ -8,16 +8,16 @@ logger = logging.getLogger(__name__)
 
 
 def includeme(config):
+    from pyramid.settings import asbool
 
     current_app.conf.python_metrics_client_url = config.registry.settings.get('python_metrics_client.url')
-    current_app.conf.python_metrics_client_timeout = config.registry.settings.get('python_metrics_client.timeout', 30)
 
-    current_app.conf.metrics_enabled = config.registry.settings.get('metrics_enabled', True)
+    current_app.conf.metrics_enabled = asbool(config.registry.settings.get('metrics_enabled', True))
 
     current_app.conf.metrics_server = config.registry.settings.get('metrics_server', 'influxdb.tick-prod.geroo.com.br')
     current_app.conf.metrics_client_protocol = config.registry.settings.get('metrics_client_protocol', 'https')
-    current_app.conf.metrics_client_port = config.registry.settings.get('metrics_client_port', 8086)
-    current_app.conf.metrics_client_timeout = config.registry.settings.get('metrics_client_timeout', 30)
+    current_app.conf.metrics_client_port = int(config.registry.settings.get('metrics_client_port', 8086))
+    current_app.conf.metrics_client_timeout = int(config.registry.settings.get('metrics_client_timeout', 30))
     current_app.conf.metrics_client_type = config.registry.settings.get('metrics_client_type', 'influxdb')
     current_app.conf.metrics_user = config.registry.settings.get('metrics_user', 'root')
     current_app.conf.metrics_password = config.registry.settings.get('metrics_password', 'root')
